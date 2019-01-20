@@ -57,7 +57,7 @@ class EventSauceServiceProvider extends ServiceProvider
                     $aggregateRootConfig['repository'], function () use ($aggregateRootConfig) {
                     return new ConstructingAggregateRootRepository(
                         $aggregateRootConfig['aggregate_root'],
-                        config('eventsauce.aggregate_roots'),
+                        $aggregateRootConfig['repository'],
                         app(MessageDispatcherChain::class)
                     );
                 });
