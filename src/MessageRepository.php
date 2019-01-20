@@ -21,9 +21,9 @@ class MessageRepository implements EventSauceMessageRepository
 
     public function __construct(Connection $connection, MessageSerializer $serializer)
     {
-        $this->serializer = $serializer;
-
         $this->connection = $connection;
+
+        $this->serializer = $serializer;
     }
 
     public function persist(Message ...$messages)

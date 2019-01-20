@@ -2,7 +2,7 @@
     "name": "spatie/laravel-eventsauce",
     "description": "Use EventSauce in Laravel apps",
     "keywords": [
-        "spatie",
+         "spatie",
         "laravel-eventsauce",
         "event sourcing",
         "eventsauce",
