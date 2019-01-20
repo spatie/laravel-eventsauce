@@ -16,18 +16,18 @@ class EventSauceServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../config/eventsauce.php' => config_path('eventsauce.php'),
+                __DIR__ . '/../config/eventsauce.php' => config_path('eventsauce.php'),
             ], 'config');
 
             $this->publishes([
-                __DIR__.'/../database/migrations' => database_path('migrations'),
+                __DIR__ . '/../database/migrations' => database_path('migrations'),
             ], 'migrations');
         }
     }
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/eventsauce.php', 'eventsauce');
+        $this->mergeConfigFrom(__DIR__ . '/../config/eventsauce.php', 'eventsauce');
 
         $this->commands([
             GenerateCodeCommand::class,
@@ -51,18 +51,17 @@ class EventSauceServiceProvider extends ServiceProvider
 
     protected function registerAggregateRoots()
     {
-        foreach (config('eventsauce.aggregate_roots') as $aggregateRootConfig) {
-            $this->app->bind(
-                $aggregateRootConfig['repository'],
-                function () use ($aggregateRootConfig) {
+        collect(config('eventsauce.aggregate_roots'))
+            ->each(function (array $aggregateRootConfig) {
+                $this->app->bind(
+                    $aggregateRootConfig['repository'], function () use ($aggregateRootConfig) {
                     return new ConstructingAggregateRootRepository(
                         $aggregateRootConfig['aggregate_root'],
                         config('eventsauce.aggregate_roots'),
                         app(MessageDispatcherChain::class)
                     );
-                }
-            );
-        }
+                });
+            });
 
         return $this;
     }
@@ -118,7 +117,7 @@ class EventSauceServiceProvider extends ServiceProvider
 
     protected function bindAsyncDispatcherToJob()
     {
-        $this->app->bindMethod(EventSauceJob::class.'@handle', function (EventSauceJob $job) {
+        $this->app->bindMethod(EventSauceJob::class . '@handle', function (EventSauceJob $job) {
             $dispatcher = app('eventsauce.async_dispatcher');
 
             $job->handle($dispatcher);
