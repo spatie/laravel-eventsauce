@@ -1,0 +1,34 @@
+---
+namespace: Tests\LaravelEventsauce
+
+commands:
+  CreateAccount:
+    fields:
+      identifier: accountIdentifier
+      name: string
+      user_id: int
+  AddMoney:
+    fields:
+      identifier: accountIdentifier
+      amount: int
+  SubtractMoney:
+    fields:
+      identifier: accountIdentifier
+      amount: int
+  DeleteAccount:
+    fields:
+      identifier: accountIdentifier
+
+events:
+  AccountCreated:
+    fields:
+      name: string
+      user_id: int
+  MoneyAdded:
+    fields:
+      amount: int
+  MoneySubtracted:
+    fields:
+      amount: int
+  AccountDeleted:
+    fields:

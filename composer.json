@@ -26,7 +26,8 @@
         "illuminate/container": "^5.7",
         "illuminate/queue": "^5.7",
         "illuminate/support": "^5.7",
-        "ramsey/uuid": "^3.8"
+        "ramsey/uuid": "^3.8",
+        "spatie/temporary-directory": "^1.1"
     },
     "require-dev": {
         "orchestra/testbench": "^3.7",

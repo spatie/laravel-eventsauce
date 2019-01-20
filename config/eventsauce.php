@@ -11,6 +11,11 @@ return [
             'aggregate_root' => null,
 
             /*
+             * TODO
+             */
+            'repository' => \EventSauce\EventSourcing\AggregateRootRepository::class,
+
+            /*
              * Consumers are classes that listen to events and do something with them, for
              * example projecting data.
              */
@@ -33,7 +38,7 @@ return [
              */
             'code_generation' => [
                 'input_yaml_file' => null,
-                'output_file'     => null,
+                'output_file' => null,
             ],
         ],
     ],
@@ -43,12 +48,12 @@ return [
      *
      * It should implement \EventSauce\EventSourcing\MessageDispatcher
      */
-    'dispatcher' => \EventSauce\LaravelEventSauce\MessageDispatcher::class,
+    'dispatcher' => \Spatie\LaravelEventSauce\MessageDispatcher::class,
 
     /*
      * This class is responsible for storing and retrieving events.
      *
      * It should implement \EventSauce\EventSourcing\MessageRepository
      */
-    'repository' => \EventSauce\LaravelEventSauce\MessageRepository::class,
+    'repository' => \Spatie\LaravelEventSauce\MessageRepository::class,
 ];
