@@ -51,17 +51,14 @@ class EventSauceServiceProvider extends ServiceProvider
 
     protected function registerAggregateRoots()
     {
+        /*
         collect(config('eventsauce.aggregate_roots'))
             ->each(function (array $aggregateRootConfig) {
-                $this->app->bind(
-                    $aggregateRootConfig['repository'], function () use ($aggregateRootConfig) {
-                    return new ConstructingAggregateRootRepository(
-                        $aggregateRootConfig['aggregate_root'],
-                        $aggregateRootConfig['repository'],
-                        app(MessageDispatcherChain::class)
-                    );
+                $this->app->bind($aggregateRootConfig['repository'], function() {
+                    return (new $aggregateRootConfig['repository'])->createRealRepository();
                 });
             });
+        */
 
         return $this;
     }
