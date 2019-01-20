@@ -2,10 +2,10 @@
 
 namespace Spatie\LaravelEventSauce\Commands;
 
-use EventSauce\EventSourcing\CodeGeneration\CodeDumper;
-use EventSauce\EventSourcing\CodeGeneration\YamlDefinitionLoader;
 use Illuminate\Console\Command;
+use EventSauce\EventSourcing\CodeGeneration\CodeDumper;
 use Spatie\LaravelEventSauce\Exceptions\InvalidConfiguration;
+use EventSauce\EventSourcing\CodeGeneration\YamlDefinitionLoader;
 
 class GenerateCodeCommand extends Command
 {
@@ -28,7 +28,7 @@ class GenerateCodeCommand extends Command
 
     private function generateCode(string $inputFile, string $outputFile)
     {
-        if (!file_exists($inputFile)) {
+        if (! file_exists($inputFile)) {
             throw InvalidConfiguration::definitionFileDoesNotExist($inputFile);
         }
 
