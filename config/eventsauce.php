@@ -33,7 +33,7 @@ return [
              */
             'code_generation' => [
                 'input_yaml_file' => null,
-                'output_file' => null,
+                'output_file'     => null,
             ],
         ],
     ],
