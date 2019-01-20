@@ -16,7 +16,7 @@ class GenerateCodeCommandTest extends TestCase
 
         config()->set('eventsauce.aggregate_roots.0.code_generation', [
             'input_yaml_file' => $this->getStubPath('commands-and-events.yml'),
-            'output_file'     => $outputFile,
+            'output_file' => $outputFile,
         ]);
 
         $this->artisan('eventsauce:generate')->assertExitCode(0);
@@ -32,7 +32,7 @@ class GenerateCodeCommandTest extends TestCase
 
         config()->set('eventsauce.aggregate_roots.0.code_generation', [
             'input_yaml_file' => 'non-existing-input',
-            'output_file'     => $outputFile,
+            'output_file' => $outputFile,
         ]);
 
         $this->expectException(InvalidConfiguration::class);
