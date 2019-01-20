@@ -8,7 +8,7 @@ return [
              *
              * See: https://eventsauce.io/docs/getting-started/create-an-aggregate-root/
              */
-            'aggregate_root_repository' => \EventSauce\EventSourcing\AggregateRootRepository::class,
+            'repository' => \EventSauce\EventSourcing\AggregateRootRepository::class,
 
             /*
              * Consumers are classes that listen to events and do something with them, for

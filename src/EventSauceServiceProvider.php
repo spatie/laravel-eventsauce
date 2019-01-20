@@ -34,7 +34,6 @@ class EventSauceServiceProvider extends ServiceProvider
         ]);
 
         $this
-            ->registerAggregateRoots()
             ->registerMessageDispatcherChain()
             ->registerMessageSerializer()
             ->registerSynchronousDispatcher()
@@ -47,20 +46,6 @@ class EventSauceServiceProvider extends ServiceProvider
         return [
             GenerateCodeCommand::class,
         ];
-    }
-
-    protected function registerAggregateRoots()
-    {
-        /*
-        collect(config('eventsauce.aggregate_roots'))
-            ->each(function (array $aggregateRootConfig) {
-                $this->app->bind($aggregateRootConfig['repository'], function() {
-                    return (new $aggregateRootConfig['repository'])->createRealRepository();
-                });
-            });
-        */
-
-        return $this;
     }
 
     protected function registerMessageDispatcherChain()
