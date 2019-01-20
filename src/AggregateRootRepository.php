@@ -2,10 +2,9 @@
 
 namespace Spatie\LaravelEventSauce;
 
-use EventSauce\EventSourcing\AggregateRoot;
-use EventSauce\EventSourcing\ConstructingAggregateRootRepository;
+use EventSauce\EventSourcing\AggregateRootId;
 use EventSauce\EventSourcing\MessageDispatcherChain;
-use  EventSauce\EventSourcing\AggregateRootId;
+use  EventSauce\EventSourcing\ConstructingAggregateRootRepository;
 
 class AggregateRootRepository implements \EventSauce\EventSourcing\AggregateRootRepository
 {

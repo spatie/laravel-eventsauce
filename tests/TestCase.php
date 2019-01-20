@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Spatie\LaravelEventSauce\Tests;
 
 use Orchestra\Testbench\TestCase as Orchestra;
-use Spatie\LaravelEventSauce\EventSauceServiceProvider;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
+use Spatie\LaravelEventSauce\EventSauceServiceProvider;
 
 class TestCase extends Orchestra
 {
