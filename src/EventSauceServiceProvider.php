@@ -34,13 +34,12 @@ class EventSauceServiceProvider extends ServiceProvider
         ]);
 
         $this
+            ->registerAggregateRoots()
+            ->registerMessageDispatcherChain()
+            ->registerMessageSerializer()
             ->registerSynchronousDispatcher()
             ->registerAsyncDispatcher()
-            ->registerMessageDispatcherChain()
-            ->registerAggregateRoots()
-            ->registerMessageSerializer();
-
-        $this->bindAsyncDispatcherToJob();
+            ->bindAsyncDispatcherToJob();
     }
 
     public function provides()
@@ -48,6 +47,47 @@ class EventSauceServiceProvider extends ServiceProvider
         return [
             GenerateCodeCommand::class,
         ];
+    }
+
+    protected function registerAggregateRoots()
+    {
+        foreach (config('eventsauce.aggregate_roots') as $aggregateRootConfig) {
+            $this->app->bind(
+                $aggregateRootConfig['repository'],
+                function () use ($aggregateRootConfig) {
+                    return new ConstructingAggregateRootRepository(
+                        $aggregateRootConfig['aggregate_root'],
+                        config('eventsauce.aggregate_roots'),
+                        app(MessageDispatcherChain::class)
+                    );
+                }
+            );
+        }
+
+        return $this;
+    }
+
+    protected function registerMessageDispatcherChain()
+    {
+        $this->app->bind(MessageDispatcherChain::class, function () {
+            $dispatcher = config('eventsauce.dispatcher');
+
+            return new MessageDispatcherChain(
+                app($dispatcher),
+                app(SynchronousMessageDispatcher::class)
+            );
+        });
+
+        return $this;
+    }
+
+    protected function registerMessageSerializer()
+    {
+        $this->app->bind(MessageSerializer::class, function () {
+            return new ConstructingMessageSerializer();
+        });
+
+        return $this;
     }
 
     protected function registerSynchronousDispatcher()
@@ -76,45 +116,6 @@ class EventSauceServiceProvider extends ServiceProvider
         return $this;
     }
 
-    protected function registerMessageDispatcherChain()
-    {
-        $this->app->bind(MessageDispatcherChain::class, function () {
-            $dispatcher = config('eventsauce.dispatcher');
-
-            return new MessageDispatcherChain(
-                app($dispatcher),
-                app(SynchronousMessageDispatcher::class)
-            );
-        });
-
-        return $this;
-    }
-
-    protected function registerAggregateRoots()
-    {
-        foreach (config('eventsauce.aggregate_roots') as $aggregateRootConfig) {
-            $this->app->bind(
-                $aggregateRootConfig['repository'],
-                function () use ($aggregateRootConfig) {
-                    return new ConstructingAggregateRootRepository(
-                        $aggregateRootConfig['aggregate_root'],
-                        config('eventsauce.aggregate_roots'),
-                        app(MessageDispatcherChain::class)
-                    );
-                }
-            );
-        }
-
-        return $this;
-    }
-
-    protected function registerMessageSerializer()
-    {
-        $this->app->bind(MessageSerializer::class, function () {
-            return new ConstructingMessageSerializer();
-        });
-    }
-
     protected function bindAsyncDispatcherToJob()
     {
         $this->app->bindMethod(EventSauceJob::class . '@handle', function (EventSauceJob $job) {
@@ -122,6 +123,8 @@ class EventSauceServiceProvider extends ServiceProvider
 
             $job->handle($dispatcher);
         });
+
+        return $this;
     }
 
     protected function getConfigForAllAggregateRoots(string $key): array
