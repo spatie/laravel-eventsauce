@@ -30,7 +30,7 @@
         "spatie/temporary-directory": "^1.1"
     },
     "require-dev": {
-        "orchestra/testbench": "^3.7",
+        "orchestra/testbench": "^3.7.6",
         "phpunit/phpunit": "^7.5"
     },
     "autoload": {
