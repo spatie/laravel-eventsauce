@@ -4,6 +4,7 @@
 [![Build Status](https://img.shields.io/travis/spatie/laravel-eventsauce/master.svg?style=flat-square)](https://travis-ci.org/spatie/laravel-eventsauce)
 [![Code coverage](https://scrutinizer-ci.com/g/spatie/laravel-eventsauce/badges/coverage.png)](https://scrutinizer-ci.com/g/spatie/laravel-eventsauce)
 [![Quality Score](https://img.shields.io/scrutinizer/g/spatie/laravel-eventsauce.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/laravel-eventsauce)
+[![StyleCI](https://github.styleci.io/repos/166579998/shield?branch=master)](https://github.styleci.io/repos/166579998)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-eventsauce.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-eventsauce)
 
 [EventSauce](https://eventsauce.io/) is an easy way to introduce event sourcing into PHP projects. By default persistence, async messaging, ... is not included in the package.
