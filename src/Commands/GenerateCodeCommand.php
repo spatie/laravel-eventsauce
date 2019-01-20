@@ -28,7 +28,7 @@ class GenerateCodeCommand extends Command
 
     private function generateCode(string $inputFile, string $outputFile)
     {
-        if ( ! file_exists($inputFile)) {
+        if (!file_exists($inputFile)) {
             throw InvalidConfiguration::definitionFileDoesNotExist($inputFile);
         }
 

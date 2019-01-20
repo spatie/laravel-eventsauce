@@ -17,18 +17,18 @@ class EventSauceServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../config/eventsauce.php' => config_path('eventsauce.php'),
+                __DIR__.'/../config/eventsauce.php' => config_path('eventsauce.php'),
             ], 'config');
 
             $this->publishes([
-                __DIR__ . '/../database/migrations' => database_path('migrations'),
+                __DIR__.'/../database/migrations' => database_path('migrations'),
             ], 'migrations');
         }
     }
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/eventsauce.php', 'eventsauce');
+        $this->mergeConfigFrom(__DIR__.'/../config/eventsauce.php', 'eventsauce');
 
         $this->commands([
             GenerateCodeCommand::class,
@@ -72,10 +72,9 @@ class EventSauceServiceProvider extends ServiceProvider
         });
     }
 
-
     protected function registerMessageDispatcherChain()
     {
-        $this->app->bind(MessageDispatcherChain::class, function (Container $container)  {
+        $this->app->bind(MessageDispatcherChain::class, function (Container $container) {
             $dispatcher = config('eventsauce.dispatcher');
 
             return new MessageDispatcherChain(
@@ -110,14 +109,12 @@ class EventSauceServiceProvider extends ServiceProvider
 
     protected function bindAsyncDispatcherToJob()
     {
-        $this->app->bindMethod(EventSauceJob::class . '@handle', function (EventSauceJob $job) {
+        $this->app->bindMethod(EventSauceJob::class.'@handle', function (EventSauceJob $job) {
             $dispatcher = app('eventsauce.async_dispatcher');
 
             $job->handle($dispatcher);
         });
     }
-
-
 
     protected function getConfigForAllAggregateRoots(string $key): array
     {
