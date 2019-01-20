@@ -22,6 +22,6 @@ class TestCase extends Orchestra
 
     protected function getStubPath(string $path): string
     {
-        return __DIR__ . "/stubs/{$path}";
+        return __DIR__."/stubs/{$path}";
     }
 }

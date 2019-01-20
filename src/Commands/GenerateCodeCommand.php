@@ -4,8 +4,8 @@ namespace Spatie\LaravelEventSauce\Commands;
 
 use EventSauce\EventSourcing\CodeGeneration\CodeDumper;
 use EventSauce\EventSourcing\CodeGeneration\YamlDefinitionLoader;
-use Spatie\LaravelEventSauce\Exceptions\InvalidConfiguration;
 use Illuminate\Console\Command;
+use Spatie\LaravelEventSauce\Exceptions\InvalidConfiguration;
 
 class GenerateCodeCommand extends Command
 {
