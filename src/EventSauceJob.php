@@ -2,6 +2,7 @@
 
 namespace Spatie\LaravelEventSauce;
 
+use EventSauce\EventSourcing\SynchronousMessageDispatcher;
 use Illuminate\Bus\Queueable;
 use EventSauce\EventSourcing\Consumer;
 use Illuminate\Queue\InteractsWithQueue;
@@ -45,6 +46,6 @@ class EventSauceJob implements ShouldQueue
             })
             ->toArray();
 
-        return SynchronousMessageDispatcher($consumers);
+        return new SynchronousMessageDispatcher(...$consumers);
     }
 }
