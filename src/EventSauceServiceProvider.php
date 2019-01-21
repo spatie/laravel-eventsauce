@@ -32,37 +32,6 @@ class EventSauceServiceProvider extends ServiceProvider
             GenerateCodeCommand::class,
         ]);
 
-        $this
-            ->registerMessageDispatcherChain()
-            ->registerMessageSerializer()
-            ->registerSynchronousDispatcher()
-            ->registerAsyncDispatcher()
-            ->bindAsyncDispatcherToJob();
-    }
-
-    public function provides()
-    {
-        return [
-            GenerateCodeCommand::class,
-        ];
-    }
-
-    protected function registerMessageDispatcherChain()
-    {
-        $this->app->bind(MessageDispatcherChain::class, function () {
-            $dispatcher = config('eventsauce.dispatcher');
-
-            return new MessageDispatcherChain(
-                app($dispatcher),
-                app(SynchronousMessageDispatcher::class)
-            );
-        });
-
-        return $this;
-    }
-
-    protected function registerMessageSerializer()
-    {
         $this->app->bind(MessageSerializer::class, function () {
             return new ConstructingMessageSerializer();
         });
@@ -70,47 +39,10 @@ class EventSauceServiceProvider extends ServiceProvider
         return $this;
     }
 
-    protected function registerSynchronousDispatcher()
+    public function provides()
     {
-        $this->app->bind(SynchronousMessageDispatcher::class, function () {
-            $consumers = array_map(function ($consumerName) {
-                return app($consumerName);
-            }, $this->getConfigForAllAggregateRoots('sync_consumers'));
-
-            return new SynchronousMessageDispatcher(...$consumers);
-        });
-
-        return $this;
-    }
-
-    protected function registerAsyncDispatcher()
-    {
-        $this->app->bind('eventsauce.async_dispatcher', function () {
-            $consumers = array_map(function ($consumerName) {
-                return app($consumerName);
-            }, $this->getConfigForAllAggregateRoots('async_consumers'));
-
-            return new SynchronousMessageDispatcher(...$consumers);
-        });
-
-        return $this;
-    }
-
-    protected function bindAsyncDispatcherToJob()
-    {
-        $this->app->bindMethod(EventSauceJob::class.'@handle', function (EventSauceJob $job) {
-            $dispatcher = app('eventsauce.async_dispatcher');
-
-            $job->handle($dispatcher);
-        });
-
-        return $this;
-    }
-
-    protected function getConfigForAllAggregateRoots(string $key): array
-    {
-        $result = data_get(config('eventsauce'), "aggregate_roots.*.{$key}");
-
-        return array_flatten($result);
+        return [
+            GenerateCodeCommand::class,
+        ];
     }
 }

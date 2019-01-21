@@ -3,10 +3,14 @@
 namespace Spatie\LaravelEventSauce;
 
 use EventSauce\EventSourcing\AggregateRootId;
+use EventSauce\EventSourcing\AggregateRootRepository as EventSauceAggregateRootRepository;
+use EventSauce\EventSourcing\Consumer;
+use EventSauce\EventSourcing\MessageDecorator;
 use EventSauce\EventSourcing\MessageDispatcherChain;
 use  EventSauce\EventSourcing\ConstructingAggregateRootRepository;
+use EventSauce\EventSourcing\SynchronousMessageDispatcher;
 
-class AggregateRootRepository implements \EventSauce\EventSourcing\AggregateRootRepository
+class AggregateRootRepository implements EventSauceAggregateRootRepository
 {
     /** @var \EventSauce\EventSourcing\ConstructingAggregateRootRepository */
     protected $constructingAggregateRootRepository;
@@ -15,14 +19,13 @@ class AggregateRootRepository implements \EventSauce\EventSourcing\AggregateRoot
     {
         $this->constructingAggregateRootRepository = new ConstructingAggregateRootRepository(
             $this->getAggregateRootClass(),
-            app(config('eventsauce.repository')),
-            app(MessageDispatcherChain::class)
+            $this->getMessageRepository(),
+            new MessageDispatcherChain(
+                new QueuedMessageDispatcher(...$this->instanciate($this->getQueuedConsumers())),
+                new SynchronousMessageDispatcher(...$this->instanciate($this->getConsumers()))
+            ),
+            $this->getMessageDecorator()
         );
-    }
-
-    public function getAggregateRootClass(): string
-    {
-        return static::$aggregateRoot;
     }
 
     public function retrieve(AggregateRootId $aggregateRootId): object
@@ -38,5 +41,39 @@ class AggregateRootRepository implements \EventSauce\EventSourcing\AggregateRoot
     public function persistEvents(AggregateRootId $aggregateRootId, int $aggregateRootVersion, object ...$events)
     {
         $this->constructingAggregateRootRepository->persistEvents($aggregateRootId, $aggregateRootVersion);
+    }
+
+    protected function getAggregateRootClass(): string
+    {
+        return static::$aggregateRoot;
+    }
+
+    protected function getMessageRepository(): \EventSauce\EventSourcing\MessageRepository
+    {
+        return app(MessageRepository::class);
+    }
+
+    protected function getConsumers(): array
+    {
+        return static::$consumers;
+    }
+
+    protected function getQueuedConsumers(): array
+    {
+        return static::$queuedConsumers;
+    }
+
+    protected function getMessageDecorator(): ?MessageDecorator
+    {
+        return null;
+    }
+
+    protected function instanciate(array $classes): array
+    {
+        return array_map(function ($class): Consumer {
+            return is_string($class)
+                ? app($class)
+                : $class;
+        }, $classes);
     }
 }

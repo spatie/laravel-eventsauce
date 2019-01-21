@@ -17,18 +17,22 @@ class GenerateCodeCommand extends Command
     {
         $this->info('Start generating code...');
 
-        $codeGenerationConfig = data_get(config('eventsauce'), 'aggregate_roots.*.code_generation');
+        $codeGenerationConfig = config('eventsauce.code_generation');
 
-        collect($codeGenerationConfig)->each(function (array $config) {
-            $this->generateCode($config['input_yaml_file'], $config['output_file']);
-        });
+        collect($codeGenerationConfig)
+            ->reject(function(array $config) {
+                return is_null($config['input_yaml_file']);
+            })
+            ->each(function (array $config) {
+                $this->generateCode($config['input_yaml_file'], $config['output_file']);
+            });
 
         $this->info('All done!');
     }
 
     private function generateCode(string $inputFile, string $outputFile)
     {
-        if (! file_exists($inputFile)) {
+        if (!file_exists($inputFile)) {
             throw InvalidConfiguration::definitionFileDoesNotExist($inputFile);
         }
 
