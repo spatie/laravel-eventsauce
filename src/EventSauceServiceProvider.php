@@ -3,8 +3,6 @@
 namespace Spatie\LaravelEventSauce;
 
 use Illuminate\Support\ServiceProvider;
-use EventSauce\EventSourcing\MessageDispatcherChain;
-use EventSauce\EventSourcing\SynchronousMessageDispatcher;
 use Spatie\LaravelEventSauce\Commands\GenerateCodeCommand;
 use EventSauce\EventSourcing\Serialization\MessageSerializer;
 use EventSauce\EventSourcing\Serialization\ConstructingMessageSerializer;

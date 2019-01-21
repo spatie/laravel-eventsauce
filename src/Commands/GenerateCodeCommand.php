@@ -20,7 +20,7 @@ class GenerateCodeCommand extends Command
         $codeGenerationConfig = config('eventsauce.code_generation');
 
         collect($codeGenerationConfig)
-            ->reject(function(array $config) {
+            ->reject(function (array $config) {
                 return is_null($config['input_yaml_file']);
             })
             ->each(function (array $config) {
@@ -32,7 +32,7 @@ class GenerateCodeCommand extends Command
 
     private function generateCode(string $inputFile, string $outputFile)
     {
-        if (!file_exists($inputFile)) {
+        if (! file_exists($inputFile)) {
             throw InvalidConfiguration::definitionFileDoesNotExist($inputFile);
         }
 
