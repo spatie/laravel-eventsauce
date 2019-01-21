@@ -2,8 +2,8 @@
 
 namespace Spatie\LaravelEventSauce;
 
-use EventSauce\EventSourcing\Consumer;
 use Illuminate\Bus\Queueable;
+use EventSauce\EventSourcing\Consumer;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use EventSauce\EventSourcing\MessageDispatcher;
@@ -22,7 +22,7 @@ class EventSauceJob implements ShouldQueue
     {
         $this->messages = $messages;
 
-        $this->consumerClasses = array_map(function(Consumer $consumer) {
+        $this->consumerClasses = array_map(function (Consumer $consumer) {
             return get_class($consumer);
         }, $consumers);
     }
@@ -37,10 +37,10 @@ class EventSauceJob implements ShouldQueue
     public function getMessageDispatcher(): MessageDispatcher
     {
         $consumers = collect($this->consumerClasses)
-            ->filter(function(string $consumerClass) {
+            ->filter(function (string $consumerClass) {
                 return class_exists($consumerClass);
             })
-            ->map(function(string $consumerClass) {
+            ->map(function (string $consumerClass) {
                 return app($consumerClass);
             })
             ->toArray();
