@@ -12,6 +12,6 @@ return [
         [
             'input_yaml_file' => null,
             'output_file' => null,
-        ]
+        ],
     ],
 ];
