@@ -5,7 +5,7 @@ namespace Spatie\LaravelEventSauce\Tests;
 use Illuminate\Support\Facades\DB;
 use EventSauce\EventSourcing\Message;
 use Illuminate\Support\Facades\Queue;
-use Spatie\LaravelEventSauce\EventSauceJob;
+use Spatie\LaravelEventSauce\QueuedMessageJob;
 use Spatie\LaravelEventSauce\Models\StoredEvent;
 use Spatie\LaravelEventSauce\Tests\TestClasses\TestEvent;
 use Spatie\LaravelEventSauce\Tests\TestClasses\Identifier;
@@ -105,7 +105,7 @@ class AggregateRootRepositoryTest extends TestCase
 
         $consumer->assertHandledMessageCount(0);
 
-        Queue::assertPushed(EventSauceJob::class, function (EventSauceJob $job) {
+        Queue::assertPushed(QueuedMessageJob::class, function (QueuedMessageJob $job) {
             if ($job->consumerClasses !== [TestConsumer::class]) {
                 return false;
             }

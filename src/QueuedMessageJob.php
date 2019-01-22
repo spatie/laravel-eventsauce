@@ -11,7 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use EventSauce\EventSourcing\MessageDispatcher;
 use EventSauce\EventSourcing\SynchronousMessageDispatcher;
 
-class EventSauceJob implements ShouldQueue
+class QueuedMessageJob implements ShouldQueue
 {
     use InteractsWithQueue, Queueable;
 

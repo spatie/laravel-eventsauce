@@ -30,6 +30,9 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
     /** @var string|null */
     protected $messageDecorator = null;
 
+    /** @var string|null */
+    protected $queuedMessageJob = null;
+
     /** @var \EventSauce\EventSourcing\ConstructingAggregateRootRepository */
     protected $constructingAggregateRootRepository;
 
@@ -37,15 +40,21 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
     {
         $aggregateRootClass = $this->getAggregateRootClass();
 
-        if (! is_subclass_of($aggregateRootClass, AggregateRoot::class)) {
+        if (!is_a($aggregateRootClass, AggregateRoot::class, true)) {
             throw new Exception('Not a valid aggregateRoot');
+        }
+
+        $queuedMessageJobClass = $this->getQueuedMessageJobClass();
+
+        if (!is_a($queuedMessageJobClass, QueuedMessageJob::class, true)) {
+            throw new Exception('Not a valid queued message job');
         }
 
         $this->constructingAggregateRootRepository = new ConstructingAggregateRootRepository(
             $aggregateRootClass,
             $this->getMessageRepository(),
             new MessageDispatcherChain(
-                (new QueuedMessageDispatcher())->setJobClass($this->getJobClass())->setConsumers($this->getInstanciatedQueuedConsumers()),
+                (new QueuedMessageDispatcher())->setJobClass($queuedMessageJobClass)->setConsumers($this->getInstanciatedQueuedConsumers()),
                 new SynchronousMessageDispatcher(...$this->getInstanciatedConsumers())
             ),
             $this->getMessageDecorator()
@@ -72,9 +81,9 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
         return $this->aggregateRoot;
     }
 
-    public function getJobClass(): string
+    public function getQueuedMessageJobClass(): string
     {
-        return EventSauceJob::class;
+        return QueuedMessageJob::class ?? $this->queuedMessageJob;
     }
 
     protected function getMessageRepository(): MessageRepository
