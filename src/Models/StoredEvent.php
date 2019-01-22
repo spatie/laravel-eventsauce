@@ -13,7 +13,7 @@ use Ramsey\Uuid\Uuid;
 
 class StoredEvent extends Model implements MessageRepository
 {
-    public $timestamps = false;s
+    public $timestamps = false;
 
     public function persist(Message ...$messages)
     {
