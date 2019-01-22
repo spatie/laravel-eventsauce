@@ -15,20 +15,22 @@ class StoredEvent extends Model implements MessageRepository
 {
     public $timestamps = false;
 
+    public $guarded = [];
+
     public function persist(Message ...$messages)
     {
         foreach ($messages as $message) {
-            $serialized = $this->getMessageSerializer()->serializeMessage($message);
+            $serializedMessage = $this->getMessageSerializer()->serializeMessage($message);
 
-            $storedEvent = new static();
+            $headers = $serializedMessage['headers'];
 
-            $storedEvent->event_id = $serialized['headers'][Header::EVENT_ID] ?? Uuid::uuid4()->toString();
-            $storedEvent->event_type = $serialized['headers'][Header::EVENT_TYPE];
-            $storedEvent->aggregate_root_id = $serialized['headers'][Header::AGGREGATE_ROOT_ID] ?? null;
-            $storedEvent->payload = json_encode($serialized);
-            $storedEvent->recorded_at = $serialized['headers'][Header::TIME_OF_RECORDING];
-
-            $storedEvent->save();
+            static::create([
+                'event_id' => $headers[Header::EVENT_ID] ?? Uuid::uuid4()->toString(),
+                'event_type' => $headers[Header::EVENT_TYPE],
+                'aggregate_root_id' => $headers[Header::AGGREGATE_ROOT_ID] ?? null,
+                'payload' => json_encode($serializedMessage),
+                'recorded_at' => $headers[Header::TIME_OF_RECORDING],
+            ]);
         }
     }
 
@@ -41,7 +43,9 @@ class StoredEvent extends Model implements MessageRepository
             ->get();
 
         foreach ($payloads as $payload) {
-            yield from $this->getMessageSerializer()->unserializePayload(json_decode($payload->payload, true));
+            $decodedPayload = json_decode($payload->payload, true);
+
+            yield from $this->getMessageSerializer()->unserializePayload($decodedPayload);
         }
     }
 
