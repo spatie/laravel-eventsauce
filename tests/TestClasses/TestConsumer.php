@@ -2,9 +2,9 @@
 
 namespace Spatie\LaravelEventSauce\Tests\TestClasses;
 
-use EventSauce\EventSourcing\Consumer;
-use EventSauce\EventSourcing\Message;
 use PHPUnit\Framework\Assert;
+use EventSauce\EventSourcing\Message;
+use EventSauce\EventSourcing\Consumer;
 
 class TestConsumer implements Consumer
 {

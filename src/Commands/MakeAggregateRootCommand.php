@@ -2,14 +2,10 @@
 
 namespace Spatie\LaravelEventSauce\Commands;
 
-use Illuminate\Console\Command;
-use EventSauce\EventSourcing\CodeGeneration\CodeDumper;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
-use ReflectionClass;
+use Illuminate\Console\Command;
+use Illuminate\Filesystem\Filesystem;
 use Spatie\LaravelEventSauce\Exceptions\CouldNotMakeAggregateRoot;
-use Spatie\LaravelEventSauce\Exceptions\InvalidConfiguration;
-use EventSauce\EventSourcing\CodeGeneration\YamlDefinitionLoader;
 
 class MakeAggregateRootCommand extends Command
 {
@@ -17,7 +13,7 @@ class MakeAggregateRootCommand extends Command
 
     protected $description = 'Create a new aggregate root class';
 
-    /** @var \Illuminate\Filesystem\Filesystem*/
+    /** @var \Illuminate\Filesystem\Filesystem */
     protected $filesystem;
 
     public function __construct(Filesystem $files)
@@ -32,7 +28,7 @@ class MakeAggregateRootCommand extends Command
         $aggregateRootFqcn = $this->qualifyClass($this->argument('class'));
         $aggregateRootPath = $this->getPath($aggregateRootFqcn);
 
-        $aggregateRootRepositoryFqcn = $this->qualifyClass($this->argument('class') . 'Repository');
+        $aggregateRootRepositoryFqcn = $this->qualifyClass($this->argument('class').'Repository');
         $aggregateRootRepositoryPath = $this->getPath($aggregateRootRepositoryFqcn);
 
         $this->ensureValidPaths([$aggregateRootPath, $aggregateRootRepositoryPath]);
@@ -41,7 +37,7 @@ class MakeAggregateRootCommand extends Command
 
         $replacements = [
             'aggregateRootClass' => class_basename($aggregateRootFqcn),
-            'namespace' => substr($aggregateRootFqcn, 0, strrpos( $aggregateRootFqcn, '\\')),
+            'namespace' => substr($aggregateRootFqcn, 0, strrpos($aggregateRootFqcn, '\\')),
         ];
 
         $this->filesystem->put($aggregateRootPath, $this->getClassContent('AggregateRoot', $replacements));
@@ -54,7 +50,7 @@ class MakeAggregateRootCommand extends Command
     {
         $name = Str::replaceFirst($this->laravel->getNamespace(), '', $name);
 
-        return $this->laravel['path'] . '/' . str_replace('\\', '/', $name) . '.php';
+        return $this->laravel['path'].'/'.str_replace('\\', '/', $name).'.php';
     }
 
     protected function qualifyClass(string $name): string
@@ -69,7 +65,7 @@ class MakeAggregateRootCommand extends Command
 
         $name = str_replace('/', '\\', $name);
 
-        return $this->qualifyClass(trim($rootNamespace, '\\') . '\\' . $name);
+        return $this->qualifyClass(trim($rootNamespace, '\\').'\\'.$name);
     }
 
     protected function ensureValidPaths(array $paths)
@@ -77,7 +73,7 @@ class MakeAggregateRootCommand extends Command
         foreach ($paths as $path) {
             if (file_exists($path)) {
                 throw CouldNotMakeAggregateRoot::fileAlreadyExists($path);
-            };
+            }
         }
     }
 
@@ -90,10 +86,9 @@ class MakeAggregateRootCommand extends Command
 
     protected function getClassContent(string $stubName, array $replacements): string
     {
-        $content = $this->filesystem->get(__DIR__ . "/stubs/{$stubName}.php.stub");
+        $content = $this->filesystem->get(__DIR__."/stubs/{$stubName}.php.stub");
 
-        foreach($replacements as $search => $replace)
-        {
+        foreach ($replacements as $search => $replace) {
             $content = str_replace("{{ {$search} }}", $replace, $content);
         }
 
