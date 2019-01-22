@@ -29,7 +29,7 @@ class QueuedMessageDispatcher implements EventSauceMessageDispatcher
 
     public function dispatch(Message ...$messages)
     {
-        if (!count($this->consumers)) {
+        if (! count($this->consumers)) {
             return;
         }
 

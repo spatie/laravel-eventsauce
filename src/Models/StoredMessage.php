@@ -40,8 +40,6 @@ class StoredMessage extends Model implements MessageRepository
 
     public function retrieveAll(AggregateRootId $id): Generator
     {
-
-
         $storedEvents = static::query()
             ->select('payload')
             ->where('aggregate_root_id', $id->toString())
