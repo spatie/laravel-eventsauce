@@ -15,7 +15,7 @@ Before using laravel-eventsauce you should already know how to work with EventSa
 Here's a quick example of how to create a new aggregate root and matching repository. Let's run this command:
 
 ```php
-php artisan make:aggregate-root  "MyDomain\MyAggregateRoot"
+php artisan make:aggregate-root "MyDomain\MyAggregateRoot"
 ```
 
 The `App\MyDomain\MyAggregateRoot` and `App\MyDomain\MyAggregateRootRepository` classes will have been created. This is how `MyAggregateRootRepository` looks like:
