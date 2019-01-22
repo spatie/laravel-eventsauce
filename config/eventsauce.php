@@ -18,8 +18,16 @@ return [
     /*
      * This class will be used by default to store events.
      *
-     * You can change this to any class that implements
+     * You may change this to any class that implements
      * \EventSauce\EventSourcing\MessageRepository
      */
     'message_repository' => \Spatie\LaravelEventSauce\Models\StoredEvent::class,
+
+    /*
+     * This class will be used by default to put EventSauce message on the queued
+     *
+     * You may change this to any class that extends
+     * \Spatie\LaravelEventSauce\QueuedMessageJob::class
+     */
+    'queued_message_job' => \Spatie\LaravelEventSauce\QueuedMessageJob::class,
 ];

@@ -54,7 +54,9 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
             $aggregateRootClass,
             $this->getMessageRepository(),
             new MessageDispatcherChain(
-                (new QueuedMessageDispatcher())->setJobClass($queuedMessageJobClass)->setConsumers($this->getInstanciatedQueuedConsumers()),
+                (new QueuedMessageDispatcher())
+                    ->setJobClass($queuedMessageJobClass)
+                    ->setConsumers($this->getInstanciatedQueuedConsumers()),
                 new SynchronousMessageDispatcher(...$this->getInstanciatedConsumers())
             ),
             $this->getMessageDecorator()
@@ -83,7 +85,7 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
 
     public function getQueuedMessageJobClass(): string
     {
-        return QueuedMessageJob::class ?? $this->queuedMessageJob;
+        return $this->queuedMessageJob ?? config('eventsauce.queued_message_job');
     }
 
     protected function getMessageRepository(): MessageRepository

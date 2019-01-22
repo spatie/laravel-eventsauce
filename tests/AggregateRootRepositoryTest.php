@@ -7,6 +7,7 @@ use EventSauce\EventSourcing\Message;
 use Illuminate\Support\Facades\Queue;
 use Spatie\LaravelEventSauce\QueuedMessageJob;
 use Spatie\LaravelEventSauce\Models\StoredEvent;
+use Spatie\LaravelEventSauce\Tests\TestClasses\AlternativeQueuedMessageJob;
 use Spatie\LaravelEventSauce\Tests\TestClasses\TestEvent;
 use Spatie\LaravelEventSauce\Tests\TestClasses\Identifier;
 use Spatie\LaravelEventSauce\Tests\TestClasses\Repository;
@@ -152,6 +153,30 @@ class AggregateRootRepositoryTest extends TestCase
         $this->recordTestEvent($repository);
 
         $consumer->assertHandledMessageCount(1);
+    }
+
+    /** @test */
+    public function it_can_use_a_custom_queued_message_job_class()
+    {
+        Queue::fake();
+
+        $consumer = new TestConsumer();
+
+        $this->app->singleton(TestConsumer::class, function () use ($consumer) {
+            return $consumer;
+        });
+
+        $repository = new class() extends Repository {
+            protected $queuedConsumers = [
+                TestConsumer::class,
+            ];
+
+            protected $queuedMessageJob = AlternativeQueuedMessageJob::class;
+        };
+
+        $this->recordTestEvent($repository);
+
+        Queue::assertPushed(AlternativeQueuedMessageJob::class);
     }
 
     protected function recordTestEvent(Repository $repository)
