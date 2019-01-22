@@ -14,10 +14,10 @@ class EventSauceJob implements ShouldQueue
     use InteractsWithQueue, Queueable;
 
     /** @var \EventSauce\EventSourcing\Message[] */
-    protected $messages = [];
+    public $messages = [];
 
     /** @var string[] */
-    protected $consumerClasses = [];
+    public $consumerClasses = [];
 
     public function __construct(array $messages, array $consumers)
     {

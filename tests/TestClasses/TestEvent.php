@@ -7,7 +7,7 @@ use EventSauce\EventSourcing\Serialization\SerializableEvent;
 class TestEvent implements SerializableEvent
 {
     /** @var int */
-    private $number;
+    public $number;
 
     public function __construct(int $number
     ) {
