@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Spatie\LaravelEventSauce\Commands\GenerateCodeCommand;
 use EventSauce\EventSourcing\Serialization\MessageSerializer;
 use EventSauce\EventSourcing\Serialization\ConstructingMessageSerializer;
+use Spatie\LaravelEventSauce\Commands\MakeAggregateRootCommand;
 
 class EventSauceServiceProvider extends ServiceProvider
 {
@@ -29,6 +30,7 @@ class EventSauceServiceProvider extends ServiceProvider
 
         $this->commands([
             GenerateCodeCommand::class,
+            MakeAggregateRootCommand::class,
         ]);
 
         $this->app->bind(MessageSerializer::class, function () {
@@ -48,6 +50,7 @@ class EventSauceServiceProvider extends ServiceProvider
     {
         return [
             GenerateCodeCommand::class,
+            MakeAggregateRootCommand::class,
         ];
     }
 }

@@ -1,0 +1,23 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\Domain\Account\Projectors\AccountProjector;
+use App\Domain\Account\Projectors\TransactionCountProjector;
+use Spatie\LaravelEventSauce\AggregateRootRepository;
+
+class {{ aggregateRootClass }}Repository extends AggregateRootRepository
+{
+    /** @var string */
+    protected $aggregateRoot = {{ aggregateRootClass }}::class;
+
+    /** @var array */
+    protected $consumers = [
+
+    ];
+
+    /** @var array */
+    protected $queuedConsumers = [
+
+    ];
+}

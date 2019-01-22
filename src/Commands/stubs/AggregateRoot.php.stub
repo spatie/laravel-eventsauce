@@ -1,0 +1,13 @@
+<?php
+
+namespace {{ namespace }};
+
+use EventSauce\EventSourcing\AggregateRoot;
+use EventSauce\EventSourcing\AggregateRootBehaviour;
+use Spatie\LaravelEventSauce\Concerns\IgnoresMissingMethods;
+
+class {{ aggregateRootClass }} implements AggregateRoot
+{
+    use AggregateRootBehaviour,
+        IgnoresMissingMethods;
+}
