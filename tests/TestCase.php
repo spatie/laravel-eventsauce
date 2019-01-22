@@ -2,7 +2,7 @@
 
 namespace Spatie\LaravelEventSauce\Tests;
 
-use CreateStoredEventsTable;
+use CreateStoredMessagesTable;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 use Spatie\LaravelEventSauce\EventSauceServiceProvider;
@@ -18,8 +18,8 @@ class TestCase extends Orchestra
 
     protected function setUpDatabase()
     {
-        include_once __DIR__.'/../database/migrations/create_stored_events_table.php.stub';
-        (new CreateStoredEventsTable())->up();
+        include_once __DIR__.'/../database/migrations/create_stored_messages_table.php.stub';
+        (new CreateStoredMessagesTable())->up();
     }
 
     protected function getPackageProviders($app)

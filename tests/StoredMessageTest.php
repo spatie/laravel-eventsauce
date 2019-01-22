@@ -6,11 +6,11 @@ use DateTimeImmutable;
 use EventSauce\EventSourcing\Header;
 use EventSauce\EventSourcing\Message;
 use EventSauce\EventSourcing\PointInTime;
-use Spatie\LaravelEventSauce\Models\StoredEvent;
+use Spatie\LaravelEventSauce\Models\StoredMessage;
 use Spatie\LaravelEventSauce\Tests\TestClasses\Identifier;
 use Spatie\LaravelEventSauce\Tests\TestClasses\TestEvent;
 
-class StoredEventTest extends TestCase
+class StoredMessageTest extends TestCase
 {
     /** @test */
     public function it_can_store_a_message()
@@ -26,9 +26,9 @@ class StoredEventTest extends TestCase
 
         $message = new Message($testEvent, $headers);
 
-        (new StoredEvent())->persist($message);
+        (new StoredMessage())->persist($message);
 
-        $storedEvent = StoredEvent::first();
+        $storedEvent = StoredMessage::first();
 
         $this->assertEquals($headers[Header::EVENT_ID], $storedEvent->event_id);
         $this->assertEquals($headers[Header::EVENT_TYPE], get_class($testEvent));
@@ -53,11 +53,11 @@ class StoredEventTest extends TestCase
 
         $message = new Message($testEvent, $headers);
 
-        (new StoredEvent())->persist($message);
+        (new StoredMessage())->persist($message);
 
         $identifier = new Identifier(1);
 
-        $messages = (new StoredEvent())->retrieveAll($identifier);
+        $messages = (new StoredMessage())->retrieveAll($identifier);
 
         $messageArray = [];
 

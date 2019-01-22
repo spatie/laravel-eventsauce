@@ -21,7 +21,7 @@ return [
      * You may change this to any class that implements
      * \EventSauce\EventSourcing\MessageRepository
      */
-    'message_repository' => \Spatie\LaravelEventSauce\Models\StoredEvent::class,
+    'message_repository' => \Spatie\LaravelEventSauce\Models\StoredMessage::class,
 
     /*
      * This class will be used by default to put EventSauce message on the queued

@@ -26,7 +26,7 @@ class EventSauceServiceProvider extends ServiceProvider
                 $timestamp = date('Y_m_d_His', time());
 
                 $this->publishes([
-                    __DIR__.'/../database/migrations/create_stored_events_table.php.stub' => database_path('migrations/'.$timestamp.'_create_stored_events_table.php'),
+                    __DIR__.'/../database/migrations/create_stored_messages_table.php.stub' => database_path('migrations/'.$timestamp.'_create_stored_messages_table.php'),
                 ], 'migrations');
             }
         }

@@ -11,7 +11,7 @@ use EventSauce\EventSourcing\AggregateRootId;
 use EventSauce\EventSourcing\MessageRepository;
 use EventSauce\EventSourcing\Serialization\MessageSerializer;
 
-class StoredEvent extends Model implements MessageRepository
+class StoredMessage extends Model implements MessageRepository
 {
     public $timestamps = false;
 

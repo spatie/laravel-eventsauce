@@ -6,14 +6,14 @@ use Illuminate\Support\Facades\DB;
 use EventSauce\EventSourcing\Message;
 use Illuminate\Support\Facades\Queue;
 use Spatie\LaravelEventSauce\QueuedMessageJob;
-use Spatie\LaravelEventSauce\Models\StoredEvent;
+use Spatie\LaravelEventSauce\Models\StoredMessage;
 use Spatie\LaravelEventSauce\Tests\TestClasses\AlternativeQueuedMessageJob;
 use Spatie\LaravelEventSauce\Tests\TestClasses\TestEvent;
 use Spatie\LaravelEventSauce\Tests\TestClasses\Identifier;
 use Spatie\LaravelEventSauce\Tests\TestClasses\Repository;
 use Spatie\LaravelEventSauce\Tests\TestClasses\TestConsumer;
 use Spatie\LaravelEventSauce\Tests\TestClasses\AggregateRoot;
-use Spatie\LaravelEventSauce\Tests\TestClasses\OtherStoredEvent;
+use Spatie\LaravelEventSauce\Tests\TestClasses\OtherStoredMessage;
 use Spatie\LaravelEventSauce\Tests\TestClasses\AlternativeAggregateRoot;
 
 class AggregateRootRepositoryTest extends TestCase
@@ -47,22 +47,22 @@ class AggregateRootRepositoryTest extends TestCase
 
         $this->recordTestEvent($repository);
 
-        $this->assertCount(1, StoredEvent::get());
+        $this->assertCount(1, StoredMessage::get());
     }
 
     /** @test */
     public function it_can_use_an_alternative_message_repository()
     {
-        DB::select('CREATE TABLE `other_stored_events` AS SELECT * FROM `stored_events` WHERE 0
+        DB::select('CREATE TABLE `other_stored_messages` AS SELECT * FROM `stored_messages` WHERE 0
 ');
 
         $repository = new class() extends Repository {
-            protected $messageRepository = OtherStoredEvent::class;
+            protected $messageRepository = OtherStoredMessage::class;
         };
 
         $this->recordTestEvent($repository);
 
-        $this->assertCount(1, DB::table('other_stored_events')->get());
+        $this->assertCount(1, DB::table('other_stored_messages')->get());
     }
 
     /** @test */
