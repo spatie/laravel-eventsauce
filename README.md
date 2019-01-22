@@ -8,11 +8,79 @@
 [![StyleCI](https://github.styleci.io/repos/166579998/shield?branch=master)](https://github.styleci.io/repos/166579998)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-eventsauce.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-eventsauce)
 
-[EventSauce](https://eventsauce.io/) is an easy way to introduce event sourcing into PHP projects. By default persistence, async messaging, ... is not included in the package.
+[EventSauce](https://eventsauce.io/) is an easy way to introduce event sourcing into PHP projects.  This package allows EventSauce to make use of Laravel's migration, models and jobs. It can also help with generating code for commands and events. If you want to use EventSauce in a Laravel app, this package is the way to go!
 
-This package allows EventSauce to make use Laravel's persistence features, queues and running commands.
+Before using laravel-eventsauce you should already know how to work with EventSauce.
 
-If you want to use EventSauce in a Laravel app, this package is the way to go!
+Here's a quick example of how to create a new aggregate root and matching repository. Let's run this command:
+
+```php
+php artisan make:aggregate-root  "MyDomain\MyAggregateRoot"
+```
+
+The `App\MyDomain\MyAggregateRoot` and `App\MyDomain\MyAggregateRootRepository` classes will have been created. This is how `MyAggregateRootRepository` looks like:
+
+```php
+namespace App\MyDomain;
+
+use App\Domain\Account\Projectors\AccountProjector;
+use App\Domain\Account\Projectors\TransactionCountProjector;
+use Spatie\LaravelEventSauce\AggregateRootRepository;
+
+/** @method \App\MyDomainMyAggregateRoot retrieve */
+class MyAggregateRootRepository extends AggregateRootRepository
+{
+    /** @var string */
+    protected $aggregateRoot = MyAggregateRoot::class;
+
+    /** @var array */
+    protected $consumers = [
+
+    ];
+
+    /** @var array */
+    protected $queuedConsumers = [
+
+    ];
+}
+```
+
+You can put classnames of consumers in the `$consumers` array. Consumers in the `$queuedConsumers` array will called and be passed their messages using a queued job.
+
+The `MyAggregateRootRepository` can be injected and used in any class.
+
+```php
+namespace App\MyDomain;
+
+class CommandHandler
+{
+    /** @var \EventSauce\EventSourcing\AggregateRootRepository */
+    private $repository;
+
+    public function __construct(MyAggregateRootRepository $repository)
+    {
+        $this->repository = $repository;
+    }
+
+    public function handle(object $command)
+    {
+        $aggregateRootId = $command->identifier();
+
+        $aggregateRoot = $this->repository->retrieve($aggregateRootId);
+
+     
+
+        try {
+            if ($command instanceof MySpecialCommand) {
+                   $aggregateRoot->performCommand($command);
+            } 
+        } finally {
+            $this->repository->persist($aggregateRoot);
+        }
+    }
+}
+```
+
 
 ## Installation
 
@@ -22,13 +90,13 @@ You can install the package via composer:
 composer require eventsauce/laravel-eventsauce
 ```
 
-This package comes with a migration to store all events. You can publish the migration file using:
+This package comes with a migration to store all messages. You can publish the migration file using:
 
 ```bash
-php artisan vendor:publish --provider="EventSauce\LaravelEventSauce\EventSauceServiceProvider" --tag="migrations"
+php artisan vendor:publish --provider="Spatie\LaravelEventSauce\EventSauceServiceProvider" --tag="migrations"
 ```
 
-To create the `domain_messages` table, run the migrations
+To create the `stored_messages` table, run the migrations
 
 ```bash
 php artisan migrate
@@ -43,10 +111,42 @@ php artisan vendor:publish --provider="EventSauce\LaravelEventSauce\EventSauceSe
 This is the contents of the file that will be publish to `config/eventsauce.php`
 
 ```php
-//TODO: add content of config file
+return [
+    /*
+     * Types, commands and events can be generated starting from a yaml file.
+     * Here you can specify the input and the output of the code generation.
+     *
+     * More info on code generation here:
+     * https://eventsauce.io/docs/getting-started/create-events-and-commands
+     */
+    'code_generation' => [
+        [
+            'input_yaml_file' => null,
+            'output_file' => null,
+        ],
+    ],
+
+    /*
+     * This class will be used by default to store events.
+     *
+     * You may change this to any class that implements
+     * \EventSauce\EventSourcing\MessageRepository
+     */
+    'message_repository' => \Spatie\LaravelEventSauce\Models\StoredMessage::class,
+
+    /*
+     * This class will be used by default to put EventSauce message on the queued
+     *
+     * You may change this to any class that extends
+     * \Spatie\LaravelEventSauce\QueuedMessageJob::class
+     */
+    'queued_message_job' => \Spatie\LaravelEventSauce\QueuedMessageJob::class,
+];
 ```
 
 ## Usage
+
+**COMING SOON**
 
 ### Code generation
 

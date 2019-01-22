@@ -16,6 +16,11 @@
             "email": "freek@spatie.be",
             "homepage": "https://spatie.be",
             "role": "Developer"
+        },
+        {
+            "name": "Dries Vints",
+            "email": "dries.vints@gmail.com",
+            "role": "Developer"
         }
     ],
     "require": {
