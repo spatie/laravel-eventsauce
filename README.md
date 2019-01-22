@@ -70,7 +70,7 @@ class CommandHandler
 
         try {
             if ($command instanceof MySpecialCommand) {
-                   $aggregateRoot->performCommand($command);
+               $aggregateRoot->performCommand($command);
             } 
         } finally {
             $this->repository->persist($aggregateRoot);
