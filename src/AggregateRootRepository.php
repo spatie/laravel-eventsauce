@@ -8,19 +8,42 @@ use EventSauce\EventSourcing\MessageDecorator;
 use EventSauce\EventSourcing\MessageDispatcherChain;
 use EventSauce\EventSourcing\MessageRepository;
 use EventSauce\EventSourcing\SynchronousMessageDispatcher;
-use  EventSauce\EventSourcing\ConstructingAggregateRootRepository;
+use EventSauce\EventSourcing\ConstructingAggregateRootRepository;
 use EventSauce\EventSourcing\AggregateRootRepository as EventSauceAggregateRootRepository;
-use Spatie\LaravelEventSauce\Models\StoredEvent;
+use EventSauce\EventSourcing\AggregateRoot;
+use Exception;
 
-class AggregateRootRepository implements EventSauceAggregateRootRepository
+
+abstract class AggregateRootRepository implements EventSauceAggregateRootRepository
 {
+    /** @var string */
+    protected $aggregateRoot = null;
+
+    /** @var array */
+    protected $consumers = [];
+
+    /** @var array */
+    protected $queuedConsumers = [];
+
+    /** @var string|null */
+    protected $messageRepository = null;
+
+    /** @var string|null  */
+    protected $messageDecorator = null;
+
     /** @var \EventSauce\EventSourcing\ConstructingAggregateRootRepository */
     protected $constructingAggregateRootRepository;
 
     public function __construct()
     {
+        $aggregateRootClass = $this->getAggregateRootClass();
+
+        if (! is_subclass_of($aggregateRootClass, AggregateRoot::class)) {
+            throw new Exception("Not a valid aggregateRoot");
+        }
+
         $this->constructingAggregateRootRepository = new ConstructingAggregateRootRepository(
-            $this->getAggregateRootClass(),
+            $aggregateRootClass,
             $this->getMessageRepository(),
             new MessageDispatcherChain(
                 new QueuedMessageDispatcher(...$this->instanciate($this->getQueuedConsumers())),
@@ -52,9 +75,9 @@ class AggregateRootRepository implements EventSauceAggregateRootRepository
 
     protected function getMessageRepository(): MessageRepository
     {
-        return isset($this->messageRepository)
-            ? app($this->messageRepository)
-            : app(MessageRepository::class);
+        $messageRepositoryClass = $this->messageRepository ?? MessageRepository::class;
+
+        return app($messageRepositoryClass);
     }
 
     protected function getConsumers(): array
@@ -69,7 +92,7 @@ class AggregateRootRepository implements EventSauceAggregateRootRepository
 
     protected function getMessageDecorator(): ?MessageDecorator
     {
-        return null;
+        return $this->messageDecorator;
     }
 
     protected function instanciate(array $classes): array
