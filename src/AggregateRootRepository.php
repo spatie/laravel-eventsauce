@@ -40,13 +40,13 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
     {
         $aggregateRootClass = $this->getAggregateRootClass();
 
-        if (!is_a($aggregateRootClass, AggregateRoot::class, true)) {
+        if (! is_a($aggregateRootClass, AggregateRoot::class, true)) {
             throw new Exception('Not a valid aggregateRoot');
         }
 
         $queuedMessageJobClass = $this->getQueuedMessageJobClass();
 
-        if (!is_a($queuedMessageJobClass, QueuedMessageJob::class, true)) {
+        if (! is_a($queuedMessageJobClass, QueuedMessageJob::class, true)) {
             throw new Exception('Not a valid queued message job');
         }
 

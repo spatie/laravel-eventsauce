@@ -17,5 +17,4 @@ class IgnoresMissingMethodsTest extends TestCase
 
         $this->markTestPassed();
     }
-
 }

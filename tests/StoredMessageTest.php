@@ -7,8 +7,8 @@ use EventSauce\EventSourcing\Header;
 use EventSauce\EventSourcing\Message;
 use EventSauce\EventSourcing\PointInTime;
 use Spatie\LaravelEventSauce\Models\StoredMessage;
-use Spatie\LaravelEventSauce\Tests\TestClasses\Identifier;
 use Spatie\LaravelEventSauce\Tests\TestClasses\TestEvent;
+use Spatie\LaravelEventSauce\Tests\TestClasses\Identifier;
 
 class StoredMessageTest extends TestCase
 {
@@ -61,7 +61,7 @@ class StoredMessageTest extends TestCase
 
         $messageArray = [];
 
-        foreach($messages as $message) {
+        foreach ($messages as $message) {
             $messageArray[] = $message;
         }
 
