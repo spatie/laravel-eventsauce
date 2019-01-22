@@ -40,16 +40,15 @@ class StoredEvent extends Model implements MessageRepository
 
     public function retrieveAll(AggregateRootId $id): Generator
     {
-        $payloads = static::query()
+
+
+        $storedEvents = static::query()
             ->select('payload')
             ->where('aggregate_root_id', $id->toString())
             ->orderBy('recorded_at')
             ->get();
-
-        foreach ($payloads as $payload) {
-            $decodedPayload = json_decode($payload->payload, true);
-
-            yield from $this->getMessageSerializer()->unserializePayload($decodedPayload);
+        foreach ($storedEvents as $storedEvent) {
+            yield from $this->getMessageSerializer()->unserializePayload($storedEvent->payload);
         }
     }
 
