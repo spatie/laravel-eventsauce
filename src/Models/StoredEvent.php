@@ -17,6 +17,10 @@ class StoredEvent extends Model implements MessageRepository
 
     public $guarded = [];
 
+    public $casts = [
+        'payload' => 'array',
+    ];
+
     public function persist(Message ...$messages)
     {
         foreach ($messages as $message) {
@@ -28,7 +32,7 @@ class StoredEvent extends Model implements MessageRepository
                 'event_id' => $headers[Header::EVENT_ID] ?? Uuid::uuid4()->toString(),
                 'event_type' => $headers[Header::EVENT_TYPE],
                 'aggregate_root_id' => $headers[Header::AGGREGATE_ROOT_ID] ?? null,
-                'payload' => json_encode($serializedMessage),
+                'payload' => $serializedMessage,
                 'recorded_at' => $headers[Header::TIME_OF_RECORDING],
             ]);
         }
