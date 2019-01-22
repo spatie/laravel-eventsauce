@@ -6,9 +6,11 @@ use EventSauce\EventSourcing\Consumer;
 use EventSauce\EventSourcing\AggregateRootId;
 use EventSauce\EventSourcing\MessageDecorator;
 use EventSauce\EventSourcing\MessageDispatcherChain;
+use EventSauce\EventSourcing\MessageRepository;
 use EventSauce\EventSourcing\SynchronousMessageDispatcher;
 use  EventSauce\EventSourcing\ConstructingAggregateRootRepository;
 use EventSauce\EventSourcing\AggregateRootRepository as EventSauceAggregateRootRepository;
+use Spatie\LaravelEventSauce\Models\StoredEvent;
 
 class AggregateRootRepository implements EventSauceAggregateRootRepository
 {
@@ -45,22 +47,24 @@ class AggregateRootRepository implements EventSauceAggregateRootRepository
 
     protected function getAggregateRootClass(): string
     {
-        return static::$aggregateRoot;
+        return $this->aggregateRoot;
     }
 
-    protected function getMessageRepository(): \EventSauce\EventSourcing\MessageRepository
+    protected function getMessageRepository(): MessageRepository
     {
-        return app(MessageRepository::class);
+        return isset($this->messageRepository)
+            ? app($this->getMessageRepository())
+            : new StoredEvent();
     }
 
     protected function getConsumers(): array
     {
-        return static::$consumers;
+        return $this->consumers;
     }
 
     protected function getQueuedConsumers(): array
     {
-        return static::$queuedConsumers;
+        return $this->queuedConsumers;
     }
 
     protected function getMessageDecorator(): ?MessageDecorator
