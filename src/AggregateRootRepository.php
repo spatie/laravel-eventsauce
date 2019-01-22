@@ -12,6 +12,7 @@ use EventSauce\EventSourcing\ConstructingAggregateRootRepository;
 use EventSauce\EventSourcing\AggregateRootRepository as EventSauceAggregateRootRepository;
 use EventSauce\EventSourcing\AggregateRoot;
 use Exception;
+use Spatie\LaravelEventSauce\Models\StoredEvent;
 
 
 abstract class AggregateRootRepository implements EventSauceAggregateRootRepository
@@ -46,8 +47,8 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
             $aggregateRootClass,
             $this->getMessageRepository(),
             new MessageDispatcherChain(
-                new QueuedMessageDispatcher(...$this->instanciate($this->getQueuedConsumers())),
-                new SynchronousMessageDispatcher(...$this->instanciate($this->getConsumers()))
+                (new QueuedMessageDispatcher())->setJobClass($this->getJobClass())->setConsumers($this->getInstanciatedQueuedConsumers()),
+                new SynchronousMessageDispatcher(...$this->getInstanciatedConsumers())
             ),
             $this->getMessageDecorator()
         );
@@ -73,6 +74,11 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
         return $this->aggregateRoot;
     }
 
+    public function getJobClass(): string
+    {
+        return EventSauceJob::class;
+    }
+
     protected function getMessageRepository(): MessageRepository
     {
         $messageRepositoryClass = $this->messageRepository ?? MessageRepository::class;
@@ -93,6 +99,16 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
     protected function getMessageDecorator(): ?MessageDecorator
     {
         return $this->messageDecorator;
+    }
+
+    protected function getInstanciatedConsumers(): array
+    {
+        return $this->instanciate($this->consumers);
+    }
+
+    protected function getInstanciatedQueuedConsumers(): array
+    {
+        return $this->instanciate($this->queuedConsumers);
     }
 
     protected function instanciate(array $classes): array
