@@ -68,8 +68,6 @@ class CommandHandler
 
         $aggregateRoot = $this->repository->retrieve($aggregateRootId);
 
-     
-
         try {
             if ($command instanceof MySpecialCommand) {
                    $aggregateRoot->performCommand($command);
@@ -80,7 +78,6 @@ class CommandHandler
     }
 }
 ```
-
 
 ## Installation
 
