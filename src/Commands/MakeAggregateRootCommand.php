@@ -50,21 +50,14 @@ class MakeAggregateRootCommand extends Command
         $this->info('Aggregate root created successfully!');
     }
 
-    protected function getPath($name)
+    protected function getPath(string $name): string
     {
         $name = Str::replaceFirst($this->rootNamespace(), '', $name);
 
         return $this->laravel['path'] . '/' . str_replace('\\', '/', $name) . '.php';
     }
 
-    /**
-     * Parse the class name and format according to the root namespace.
-     *
-     * @param  string $name
-     *
-     * @return string
-     */
-    protected function qualifyClass($name)
+    protected function qualifyClass(string $name): string
     {
         $name = ltrim($name, '\\/');
 
@@ -88,16 +81,14 @@ class MakeAggregateRootCommand extends Command
         }
     }
 
-    protected function makeDirectory($path)
+    protected function makeDirectory(string $path)
     {
         if (! $this->files->isDirectory(dirname($path))) {
             $this->files->makeDirectory(dirname($path), 0777, true, true);
         }
-
-        return $path;
     }
 
-    protected function getClassContent(string $stubName, array $replacements)
+    protected function getClassContent(string $stubName, array $replacements): string
     {
         $content = $this->files->get(__DIR__ . "/stubs/{$stubName}.php.stub");
 
