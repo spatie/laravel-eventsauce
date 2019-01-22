@@ -62,14 +62,13 @@ class QueuedMessageJob implements ShouldQueue
     protected function convertToTags(array $messages): array
     {
         return collect($messages)
-            ->map(function (Message $message) {
+            ->flatMap(function (Message $message) {
                 return [
                     'aggregateRootId:' . $message->aggregateRootId()->toString(),
                     'aggregateRootType:' . $message->header(Header::AGGREGATE_ROOT_ID_TYPE),
                     'eventType:' . $message->header(Header::EVENT_TYPE),
                 ];
             })
-            ->flatMap()
             ->filter()
             ->unique()
             ->toArray();
