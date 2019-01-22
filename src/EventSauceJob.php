@@ -2,6 +2,8 @@
 
 namespace Spatie\LaravelEventSauce;
 
+use EventSauce\EventSourcing\Header;
+use EventSauce\EventSourcing\Message;
 use Illuminate\Bus\Queueable;
 use EventSauce\EventSourcing\Consumer;
 use Illuminate\Queue\InteractsWithQueue;
@@ -19,6 +21,9 @@ class EventSauceJob implements ShouldQueue
     /** @var string[] */
     public $consumerClasses = [];
 
+    /** @var array */
+    public $tags = [];
+
     public function __construct(array $messages, array $consumers)
     {
         $this->messages = $messages;
@@ -26,6 +31,11 @@ class EventSauceJob implements ShouldQueue
         $this->consumerClasses = array_map(function (Consumer $consumer) {
             return get_class($consumer);
         }, $consumers);
+    }
+
+    public function tags(): array
+    {
+        return $this->convertToTags($this->messages);
     }
 
     public function handle()
@@ -47,5 +57,21 @@ class EventSauceJob implements ShouldQueue
             ->toArray();
 
         return new SynchronousMessageDispatcher(...$consumers);
+    }
+
+    protected function convertToTags(array $messages): array
+    {
+        return collect($messages)
+            ->map(function (Message $message) {
+                return [
+                    'aggregateRootId:' . $message->aggregateRootId()->toString(),
+                    'aggregateRootType:' . $message->header(Header::AGGREGATE_ROOT_ID_TYPE),
+                    'eventType:' . $message->header(Header::EVENT_TYPE),
+                ];
+            })
+            ->flatMap()
+            ->filter()
+            ->unique()
+            ->toArray();
     }
 }

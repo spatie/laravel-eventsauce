@@ -11,7 +11,7 @@ class QueuedMessageDispatcher implements EventSauceMessageDispatcher
     protected $jobClass;
 
     /** @var \EventSauce\EventSourcing\Consumer[] */
-    protected $consumers;
+    protected $consumers = [];
 
     public function setJobClass(string $jobClass)
     {
@@ -33,6 +33,9 @@ class QueuedMessageDispatcher implements EventSauceMessageDispatcher
             return;
         }
 
-        dispatch(new $this->jobClass($messages, $this->consumers));
+        dispatch(new $this->jobClass(
+            $messages,
+            $this->consumers
+            ));
     }
 }
