@@ -1,6 +1,6 @@
 <?php
 
-namespace EventSauce\LaravelEventSauce\Tests\Commands;
+namespace Spatie\LaravelEventSauce\Tests\Commands;
 
 use Spatie\LaravelEventSauce\Tests\TestCase;
 use Spatie\LaravelEventSauce\Exceptions\InvalidConfiguration;

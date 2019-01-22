@@ -18,13 +18,13 @@ class MakeAggregateRootCommand extends Command
     protected $description = 'Create a new aggregate root class';
 
     /** @var \Illuminate\Filesystem\Filesystem*/
-    protected $files;
+    protected $filesystem;
 
     public function __construct(Filesystem $files)
     {
         parent::__construct();
 
-        $this->files = $files;
+        $this->filesystem = $files;
     }
 
     public function handle()
@@ -44,15 +44,15 @@ class MakeAggregateRootCommand extends Command
             'namespace' => substr($aggregateRootFqcn, 0, strrpos( $aggregateRootFqcn, '\\')),
         ];
 
-        $this->files->put($aggregateRootPath, $this->getClassContent('AggregateRoot', $replacements));
-        $this->files->put($aggregateRootRepositoryPath, $this->getClassContent('AggregateRootRepository', $replacements));
+        $this->filesystem->put($aggregateRootPath, $this->getClassContent('AggregateRoot', $replacements));
+        $this->filesystem->put($aggregateRootRepositoryPath, $this->getClassContent('AggregateRootRepository', $replacements));
 
         $this->info('Aggregate root created successfully!');
     }
 
     protected function getPath(string $name): string
     {
-        $name = Str::replaceFirst($this->rootNamespace(), '', $name);
+        $name = Str::replaceFirst($this->laravel->getNamespace(), '', $name);
 
         return $this->laravel['path'] . '/' . str_replace('\\', '/', $name) . '.php';
     }
@@ -83,14 +83,14 @@ class MakeAggregateRootCommand extends Command
 
     protected function makeDirectory(string $path)
     {
-        if (! $this->files->isDirectory(dirname($path))) {
-            $this->files->makeDirectory(dirname($path), 0777, true, true);
+        if (! $this->filesystem->isDirectory(dirname($path))) {
+            $this->filesystem->makeDirectory(dirname($path), 0777, true, true);
         }
     }
 
     protected function getClassContent(string $stubName, array $replacements): string
     {
-        $content = $this->files->get(__DIR__ . "/stubs/{$stubName}.php.stub");
+        $content = $this->filesystem->get(__DIR__ . "/stubs/{$stubName}.php.stub");
 
         foreach($replacements as $search => $replace)
         {
