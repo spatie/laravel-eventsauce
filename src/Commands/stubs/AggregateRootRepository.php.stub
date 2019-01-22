@@ -6,6 +6,7 @@ use App\Domain\Account\Projectors\AccountProjector;
 use App\Domain\Account\Projectors\TransactionCountProjector;
 use Spatie\LaravelEventSauce\AggregateRootRepository;
 
+/** @method \{{ namespace }}{{ aggregateRootClass }} retrieve */
 class {{ aggregateRootClass }}Repository extends AggregateRootRepository
 {
     /** @var string */

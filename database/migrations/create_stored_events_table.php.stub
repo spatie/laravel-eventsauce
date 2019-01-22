@@ -20,6 +20,6 @@ class CreateStoredEventsTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('domain_messages');
+        Schema::dropIfExists('stored_events');
     }
 }
