@@ -14,4 +14,12 @@ return [
             'output_file' => null,
         ],
     ],
+
+    /*
+     * This class will be used by default to store events.
+     *
+     * You can change this to any class that implements
+     * \EventSauce\EventSourcing\MessageRepository
+     */
+    'message_repository' => \Spatie\LaravelEventSauce\Models\StoredEvent::class,
 ];

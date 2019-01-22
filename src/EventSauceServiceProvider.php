@@ -2,6 +2,7 @@
 
 namespace Spatie\LaravelEventSauce;
 
+use EventSauce\EventSourcing\MessageRepository;
 use Illuminate\Support\ServiceProvider;
 use Spatie\LaravelEventSauce\Commands\GenerateCodeCommand;
 use EventSauce\EventSourcing\Serialization\MessageSerializer;
@@ -32,6 +33,12 @@ class EventSauceServiceProvider extends ServiceProvider
 
         $this->app->bind(MessageSerializer::class, function () {
             return new ConstructingMessageSerializer();
+        });
+
+        $this->app->bind(MessageRepository::class, function () {
+            $messageRepositoryClass = config('eventsauce.message_repository');
+
+            return app($messageRepositoryClass);
         });
 
         return $this;

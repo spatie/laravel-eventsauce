@@ -53,8 +53,8 @@ class AggregateRootRepository implements EventSauceAggregateRootRepository
     protected function getMessageRepository(): MessageRepository
     {
         return isset($this->messageRepository)
-            ? app($this->getMessageRepository())
-            : new StoredEvent();
+            ? app($this->messageRepository)
+            : app(MessageRepository::class);
     }
 
     protected function getConsumers(): array
