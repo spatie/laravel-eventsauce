@@ -36,4 +36,9 @@ class TestCase extends Orchestra
     {
         return __DIR__."/stubs/{$path}";
     }
+
+    protected function markTestPassed()
+    {
+        $this->assertTrue(true);
+    }
 }
