@@ -47,7 +47,7 @@ class MyAggregateRootRepository extends AggregateRootRepository
 
 You can put classnames of consumers in the `$consumers` array. Consumers in the `$queuedConsumers` array will called and be passed their messages using a queued job.
 
-The `MyAggregateRootRepository` can be injected and used in any class. In this example we assume you've manually created a `performMySpecialCommand` method on `MyAggregateRoot`.
+The `MyAggregateRootRepository` can be injected and used in any class. In this example we assume you've manually created a `performMySpecialCommand` method on `MyAggregateRoot`:
 
 ```php
 namespace App\MyDomain;
