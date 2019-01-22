@@ -2,8 +2,8 @@
 
 return [
     /*
-     * We can generate  types, commands and events for you starting from a yaml file.
-     * Here you can specify the input and the output.
+     * Types, commands and events can be generated starting from a yaml file.
+     * Here you can specify the input and the output of the code generation.
      *
      * More info on code generation here:
      * https://eventsauce.io/docs/getting-started/create-events-and-commands
