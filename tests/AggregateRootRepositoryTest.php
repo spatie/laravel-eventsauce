@@ -2,20 +2,18 @@
 
 namespace Spatie\LaravelEventSauce\Tests;
 
-use EventSauce\EventSourcing\Message;
-use Illuminate\Queue\Jobs\Job;
 use Illuminate\Support\Facades\DB;
+use EventSauce\EventSourcing\Message;
 use Illuminate\Support\Facades\Queue;
-use PHPUnit\Framework\Assert;
 use Spatie\LaravelEventSauce\EventSauceJob;
 use Spatie\LaravelEventSauce\Models\StoredEvent;
-use Spatie\LaravelEventSauce\Tests\TestClasses\AggregateRoot;
-use Spatie\LaravelEventSauce\Tests\TestClasses\AlternativeAggregateRoot;
+use Spatie\LaravelEventSauce\Tests\TestClasses\TestEvent;
 use Spatie\LaravelEventSauce\Tests\TestClasses\Identifier;
-use Spatie\LaravelEventSauce\Tests\TestClasses\OtherStoredEvent;
 use Spatie\LaravelEventSauce\Tests\TestClasses\Repository;
 use Spatie\LaravelEventSauce\Tests\TestClasses\TestConsumer;
-use Spatie\LaravelEventSauce\Tests\TestClasses\TestEvent;
+use Spatie\LaravelEventSauce\Tests\TestClasses\AggregateRoot;
+use Spatie\LaravelEventSauce\Tests\TestClasses\OtherStoredEvent;
+use Spatie\LaravelEventSauce\Tests\TestClasses\AlternativeAggregateRoot;
 
 class AggregateRootRepositoryTest extends TestCase
 {
@@ -71,7 +69,7 @@ class AggregateRootRepositoryTest extends TestCase
     {
         $consumer = new TestConsumer();
 
-        $this->app->singleton(TestConsumer::class, function() use ($consumer) {
+        $this->app->singleton(TestConsumer::class, function () use ($consumer) {
             return $consumer;
         });
 
@@ -93,7 +91,7 @@ class AggregateRootRepositoryTest extends TestCase
 
         $consumer = new TestConsumer();
 
-        $this->app->singleton(TestConsumer::class, function() use ($consumer) {
+        $this->app->singleton(TestConsumer::class, function () use ($consumer) {
             return $consumer;
         });
 
@@ -107,7 +105,7 @@ class AggregateRootRepositoryTest extends TestCase
 
         $consumer->assertHandledMessageCount(0);
 
-        Queue::assertPushed(EventSauceJob::class, function(EventSauceJob $job) {
+        Queue::assertPushed(EventSauceJob::class, function (EventSauceJob $job) {
             if ($job->consumerClasses !== [TestConsumer::class]) {
                 return false;
             }
@@ -141,7 +139,7 @@ class AggregateRootRepositoryTest extends TestCase
          */
         $consumer = new TestConsumer();
 
-        $this->app->singleton(TestConsumer::class, function() use ($consumer) {
+        $this->app->singleton(TestConsumer::class, function () use ($consumer) {
             return $consumer;
         });
 

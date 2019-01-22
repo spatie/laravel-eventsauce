@@ -2,18 +2,16 @@
 
 namespace Spatie\LaravelEventSauce;
 
+use Exception;
 use EventSauce\EventSourcing\Consumer;
+use EventSauce\EventSourcing\AggregateRoot;
 use EventSauce\EventSourcing\AggregateRootId;
 use EventSauce\EventSourcing\MessageDecorator;
-use EventSauce\EventSourcing\MessageDispatcherChain;
 use EventSauce\EventSourcing\MessageRepository;
+use EventSauce\EventSourcing\MessageDispatcherChain;
 use EventSauce\EventSourcing\SynchronousMessageDispatcher;
 use EventSauce\EventSourcing\ConstructingAggregateRootRepository;
 use EventSauce\EventSourcing\AggregateRootRepository as EventSauceAggregateRootRepository;
-use EventSauce\EventSourcing\AggregateRoot;
-use Exception;
-use Spatie\LaravelEventSauce\Models\StoredEvent;
-
 
 abstract class AggregateRootRepository implements EventSauceAggregateRootRepository
 {
@@ -29,7 +27,7 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
     /** @var string|null */
     protected $messageRepository = null;
 
-    /** @var string|null  */
+    /** @var string|null */
     protected $messageDecorator = null;
 
     /** @var \EventSauce\EventSourcing\ConstructingAggregateRootRepository */
@@ -40,7 +38,7 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
         $aggregateRootClass = $this->getAggregateRootClass();
 
         if (! is_subclass_of($aggregateRootClass, AggregateRoot::class)) {
-            throw new Exception("Not a valid aggregateRoot");
+            throw new Exception('Not a valid aggregateRoot');
         }
 
         $this->constructingAggregateRootRepository = new ConstructingAggregateRootRepository(

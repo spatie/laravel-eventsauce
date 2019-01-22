@@ -18,9 +18,10 @@ class TestEvent implements SerializableEvent
     {
         return $this->number;
     }
+
     public static function fromPayload(array $payload): SerializableEvent
     {
-        return new TestEvent(
+        return new self(
             (int) $payload['amount']
         );
     }

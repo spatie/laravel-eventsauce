@@ -3,8 +3,6 @@
 namespace Spatie\LaravelEventSauce\Tests\TestClasses;
 
 use EventSauce\EventSourcing\AggregateRootId;
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
 
 class Identifier implements AggregateRootId
 {

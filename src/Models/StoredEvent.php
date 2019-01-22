@@ -2,14 +2,14 @@
 
 namespace Spatie\LaravelEventSauce\Models;
 
-use EventSauce\EventSourcing\AggregateRootId;
-use EventSauce\EventSourcing\Header;
-use EventSauce\EventSourcing\Message;
-use EventSauce\EventSourcing\MessageRepository;
-use EventSauce\EventSourcing\Serialization\MessageSerializer;
-use Illuminate\Database\Eloquent\Model;
 use Generator;
 use Ramsey\Uuid\Uuid;
+use EventSauce\EventSourcing\Header;
+use EventSauce\EventSourcing\Message;
+use Illuminate\Database\Eloquent\Model;
+use EventSauce\EventSourcing\AggregateRootId;
+use EventSauce\EventSourcing\MessageRepository;
+use EventSauce\EventSourcing\Serialization\MessageSerializer;
 
 class StoredEvent extends Model implements MessageRepository
 {

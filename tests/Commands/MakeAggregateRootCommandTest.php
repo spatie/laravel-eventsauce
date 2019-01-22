@@ -3,8 +3,8 @@
 namespace Spatie\LaravelEventSauce\Tests\Commands;
 
 use Illuminate\Filesystem\Filesystem;
-use Spatie\LaravelEventSauce\Commands\MakeAggregateRootCommand;
 use Spatie\LaravelEventSauce\Tests\TestCase;
+use Spatie\LaravelEventSauce\Commands\MakeAggregateRootCommand;
 use Spatie\LaravelEventSauce\Tests\Mocks\Filesystem as FilesystemMock;
 
 class MakeAggregateRootCommandTest extends TestCase
@@ -21,7 +21,7 @@ class MakeAggregateRootCommandTest extends TestCase
         $this->app
             ->when(MakeAggregateRootCommand::class)
             ->needs(Filesystem::class)
-            ->give(function() {
+            ->give(function () {
                 return $this->filesystem;
             });
     }

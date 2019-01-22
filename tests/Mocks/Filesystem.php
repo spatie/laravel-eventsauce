@@ -2,8 +2,8 @@
 
 namespace Spatie\LaravelEventSauce\Tests\Mocks;
 
-use Illuminate\Filesystem\Filesystem as IlluminateFilesystem;
 use PHPUnit\Framework\Assert;
+use Illuminate\Filesystem\Filesystem as IlluminateFilesystem;
 
 class Filesystem extends IlluminateFilesystem
 {

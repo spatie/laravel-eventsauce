@@ -2,10 +2,10 @@
 
 namespace Spatie\LaravelEventSauce\Tests;
 
+use CreateStoredEventsTable;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 use Spatie\LaravelEventSauce\EventSauceServiceProvider;
-use CreateStoredEventsTable;
 
 class TestCase extends Orchestra
 {
