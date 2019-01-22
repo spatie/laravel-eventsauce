@@ -7,7 +7,6 @@ use EventSauce\EventSourcing\Message;
 use Illuminate\Support\Facades\Queue;
 use Spatie\LaravelEventSauce\QueuedMessageJob;
 use Spatie\LaravelEventSauce\Models\StoredMessage;
-use Spatie\LaravelEventSauce\Tests\TestClasses\AlternativeQueuedMessageJob;
 use Spatie\LaravelEventSauce\Tests\TestClasses\TestEvent;
 use Spatie\LaravelEventSauce\Tests\TestClasses\Identifier;
 use Spatie\LaravelEventSauce\Tests\TestClasses\Repository;
@@ -15,6 +14,7 @@ use Spatie\LaravelEventSauce\Tests\TestClasses\TestConsumer;
 use Spatie\LaravelEventSauce\Tests\TestClasses\AggregateRoot;
 use Spatie\LaravelEventSauce\Tests\TestClasses\OtherStoredMessage;
 use Spatie\LaravelEventSauce\Tests\TestClasses\AlternativeAggregateRoot;
+use Spatie\LaravelEventSauce\Tests\TestClasses\AlternativeQueuedMessageJob;
 
 class AggregateRootRepositoryTest extends TestCase
 {

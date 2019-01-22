@@ -2,9 +2,9 @@
 
 namespace Spatie\LaravelEventSauce;
 
+use Illuminate\Bus\Queueable;
 use EventSauce\EventSourcing\Header;
 use EventSauce\EventSourcing\Message;
-use Illuminate\Bus\Queueable;
 use EventSauce\EventSourcing\Consumer;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -64,9 +64,9 @@ class QueuedMessageJob implements ShouldQueue
         return collect($messages)
             ->flatMap(function (Message $message) {
                 return [
-                    'aggregateRootId:' . $message->aggregateRootId()->toString(),
-                    'aggregateRootType:' . $message->header(Header::AGGREGATE_ROOT_ID_TYPE),
-                    'eventType:' . $message->header(Header::EVENT_TYPE),
+                    'aggregateRootId:'.$message->aggregateRootId()->toString(),
+                    'aggregateRootType:'.$message->header(Header::AGGREGATE_ROOT_ID_TYPE),
+                    'eventType:'.$message->header(Header::EVENT_TYPE),
                 ];
             })
             ->filter()
