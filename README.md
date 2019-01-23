@@ -8,7 +8,7 @@
 [![StyleCI](https://github.styleci.io/repos/166579998/shield?branch=master)](https://github.styleci.io/repos/166579998)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-eventsauce.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-eventsauce)
 
-[EventSauce](https://eventsauce.io/) is an easy way to introduce event sourcing into PHP projects.  This package allows EventSauce to make use of Laravel's migration, models and jobs. It can also help with generating code for commands and events. If you want to use EventSauce in a Laravel app, this package is the way to go!
+[EventSauce](https://eventsauce.io/) is an easy way to introduce event sourcing into PHP projects.  This package allows EventSauce to make use of Laravel's migrations, models and jobs. It can also help with generating code for commands and events. If you want to use EventSauce in a Laravel app, this package is the way to go!
 
 Before using laravel-eventsauce you should already know how to work with EventSauce.
 
