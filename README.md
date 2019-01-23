@@ -213,7 +213,6 @@ Here is an example:
 
 class MyAggregateRootRepository extends AggregateRootRepository
 {
-    /** @var string */
     protected $aggregateRoot = MyAggregateRoot::class;
 
     // ...
@@ -304,7 +303,6 @@ use App\CustomStoredMessage;
 
 class MyAggregateRootRepository extends AggregateRootRepository
 {
-    /** @var string */
     protected $aggregateRoot = MyAggregateRoot::class;
 
     // ...
@@ -322,10 +320,8 @@ use Spatie\LaravelEventSauce\Models\StoredMessage;
 
 class CustomStoredMessage extends StoredMessage
 {
-    /**
+    /*
      * The connection name for the model.
-     *
-     * @var string
      */
     protected $connection = 'connection-name';
 }
