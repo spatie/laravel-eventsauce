@@ -331,7 +331,7 @@ class CustomStoredMessage extends StoredMessage
 
 We can generate types, events and commands from you starting from a yaml file. You can read more on the contents of the yaml file and the generated output in the "[Defining command and events using Yaml](https://eventsauce.io/docs/getting-started/create-events-and-commands/)" section of the EventSauce docs.
 
-To generate code, fill in the keys in the `code_generation` parts of the `eventsauce` config file and execute this command
+To generate code, fill in the keys in the `code_generation` parts of the `eventsauce` config file and execute this command.
 
 ```
 php artisan eventsauce:generate
