@@ -27,7 +27,7 @@ use App\Domain\Account\Projectors\AccountProjector;
 use App\Domain\Account\Projectors\TransactionCountProjector;
 use Spatie\LaravelEventSauce\AggregateRootRepository;
 
-/** @method \App\MyDomainMyAggregateRoot retrieve */
+/** @method \App\MyDomain\MyAggregateRoot retrieve */
 class MyAggregateRootRepository extends AggregateRootRepository
 {
     /** @var string */
@@ -101,7 +101,7 @@ php artisan migrate
 
 Next you must publish the `eventsauce` config file.
 
-```php
+```bash
 php artisan vendor:publish --provider="EventSauce\LaravelEventSauce\EventSauceServiceProvider" --tag="config"
 ```
 
@@ -143,7 +143,130 @@ return [
 
 ## Usage
 
-**COMING SOON**
+### Generating an aggregate root and repository
+
+An aggregate root and matching repository can be generated used this command
+
+```bash
+php artisan make:aggregate-root "MyDomain\MyAggregateRoot"
+```
+
+This command will create `App\MyDomain\MyAggregateRoot` and `App\MyDomain\MyAggregateRootRepository`. 
+
+This is how `MyAggregateRootRepository` looks like:
+
+```php
+namespace App\MyDomain;
+
+use App\Domain\Account\Projectors\AccountProjector;
+use App\Domain\Account\Projectors\TransactionCountProjector;
+use Spatie\LaravelEventSauce\AggregateRootRepository;
+
+/** @method \App\MyDomain\MyAggregateRoot retrieve */
+class MyAggregateRootRepository extends AggregateRootRepository
+{
+    /** @var string */
+    protected $aggregateRoot = MyAggregateRoot::class;
+
+    /** @var array */
+    protected $consumers = [
+
+    ];
+
+    /** @var array */
+    protected $queuedConsumers = [
+
+    ];
+}
+```
+
+If you repository doesn't need consumers or queued consumers, you can safely remove those variables. The only required variable is `$aggregateRoot`.
+
+Of course you can also manually create an aggregate root repository. Just create a class, let it extend`Spatie\LaravelEventSauce\AggregateRootRepository`  and put the fully qualified classname of your aggregate root in a protected `$aggregateRoot` property.
+
+### Configuring the aggregate root repository
+
+#### Specifying the aggregate root
+
+The `$aggregateRoot` property should contain the fully qualied class name of an aggregate root. A valid aggregate root is any class that implements `EventSauce\EventSourcing\AggregateRoot`
+
+#### Adding consumers
+
+Consumers are classes that receive all events and do something with them, for example creation a projection. The `$consumers` property should be an array that contains class names of consumers. A valid consumer is any class that implements `EventSauce\EventSourcing\Consumer`.
+
+#### Adding queued consumers
+
+Unless you need the result of a consumer in the same request as your command or event is fired, it's recommanded to let a consumer to perform it's work on a queue. The `$queuedConsumers` property should be an array that contains class names of consumers. A valid consumer is any class that implements `EventSauce\EventSourcing\Consumer`.
+
+If there are any message that needs to be sent to any of these consumers, the package will dispatch a `Spatie\LaravelEventSauce\QueuedMessageJob` by default.
+
+#### Customizing the job that passes messages to queued consumers
+
+By default `Spatie\LaravelEventSauce\QueuedMessageJob` is used to pass messages to queued consumers. You can customized this job by setting the `queued_message_job` entry in the `eventsauce` config file to the class of your custom job. A valid job is any class that extends `Spatie\LaravelEventSauce\QueuedMessageJob`. 
+
+Changing the `queued_message_job` entry will change the default job of all aggregate root repositories. If you want to change the job class for a specific repository add a `$queuedMessageJob` property to that repository.
+
+Here is an example:
+
+```php
+
+// ...
+
+class MyAggregateRootRepository extends AggregateRootRepository
+{
+    /** @var string */
+    protected $aggregateRoot = MyAggregateRoot::class;
+
+    // ...
+    
+    protected $queuedMessageJob = MyCustomJob::class;
+}
+```
+
+You can use that custom job to add properties to control the timeout, max attempts and the queue to be used. You can read more on how to configure a job in the [Laravel docs on queueing](https://laravel.com/docs/master/queues).
+
+Here's an example of a custom job.
+
+```php
+use Spatie\LaravelEventSauce\QueuedMessageJob;
+
+class MyCustomJob extends QueuedMessageJob
+{
+    /**
+     * The name of the connection the job should be sent to.
+     *
+     * @var string|null
+     */
+    public $connection = 'my-custom-connection';
+
+    /**
+     * The name of the queue the job should be sent to.
+     *
+     * @var string|null
+     */
+    public $queue = 'my-custom-queue';
+
+     * The number of times the job may be attempted.
+     *
+     * @var int
+     */
+    public $tries = 5;
+    
+    /**
+     * The number of seconds the job can run before timing out.
+     *
+     * @var int
+     */
+    public $timeout = 120;
+    
+    /**
+     * The number of seconds before the job should be made available.
+     *
+     * @var \DateTimeInterface|\DateInterval|int|null
+     */
+    public $delay;
+}
+```
 
 ### Code generation
 
