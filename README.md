@@ -209,7 +209,6 @@ Changing the `queued_message_job` entry will change the default job of all aggre
 Here is an example:
 
 ```php
-
 // ...
 
 class MyAggregateRootRepository extends AggregateRootRepository
@@ -267,10 +266,70 @@ class MyCustomJob extends QueuedMessageJob
 
 #### Customizing where messages are stored
 
-Coming soon...
+By default all messages are stored in the `stored_messages` table. This is done behind the screens by the `Spatie\LaravelEventSauce\Models\StoredMessage` model.
+
+You can let an aggregate use a custom model by adding a `$messageRepository` property on your repository. That model should extend `Spatie\LaravelEventSauce\Models\StoredMessage`
+
+Here's an example where we want stored the messages in a table called `custom_stored_messages`. The first thing you need to do is to create a migration to create the table. Run `php artisan make:migration create_custom_stored_messages` and put this in the `up` method of the newly created migration.
+
+```php
+Schema::create('custom_stored_messages', function (Blueprint $table) {
+    $table->increments('id');
+    $table->string('event_id', 36);
+    $table->string('event_type', 100);
+    $table->string('aggregate_root_id', 36)->nullable()->index();
+    $table->dateTime('recorded_at', 6)->index();
+    $table->text('payload');
+});
+```
+
+Next create a new model called `CustomStoredMessage` that extends `Spatie\LaravelEventSauce\Models\StoredMessage`
+
+```php
+namespace App;
+
+use Spatie\LaravelEventSauce\Models\StoredMessage;
+
+class CustomStoredMessage extends StoredMessage
+{
+}
+```
+
+And finally specify the classname of your custom model on the `$messageRepository` property of your aggregate.
+
+```php
+// ...
+
+use App\CustomStoredMessage;
+
+class MyAggregateRootRepository extends AggregateRootRepository
+{
+    /** @var string */
+    protected $aggregateRoot = MyAggregateRoot::class;
+
+    // ...
+    
+    protected $messageRepository = CustomStoredMessage::class;
+```
+
+Laravel has support for multiple database connections. If you want let your repository use an alternative connection, you can just specify the `$connection` property on the model used by the repository. Here's an example where we let our `CustomStoreMessage` model use an alternative connection.
 
 
+```php
+namespace App;
 
+use Spatie\LaravelEventSauce\Models\StoredMessage;
+
+class CustomStoredMessage extends StoredMessage
+{
+    /**
+     * The connection name for the model.
+     *
+     * @var string
+     */
+    protected $connection = 'connection-name';
+}
+```
 
 ### Code generation
 
