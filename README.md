@@ -344,7 +344,7 @@ php artisan eventsauce:generate
 ### Testing
 
 ``` bash
-./run-tests.sh
+composer test
 ```
 
 ### Changelog
