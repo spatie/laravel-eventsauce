@@ -232,41 +232,45 @@ use Spatie\LaravelEventSauce\QueuedMessageJob;
 
 class MyCustomJob extends QueuedMessageJob
 {
-    /**
+    /*
      * The name of the connection the job should be sent to.
-     *
-     * @var string|null
      */
     public $connection = 'my-custom-connection';
 
-    /**
+    /*
      * The name of the queue the job should be sent to.
-     *
-     * @var string|null
      */
     public $queue = 'my-custom-queue';
 
+    /*
      * The number of times the job may be attempted.
      *
      * @var int
      */
     public $tries = 5;
     
-    /**
+    /*
      * The number of seconds the job can run before timing out.
      *
      * @var int
      */
     public $timeout = 120;
     
-    /**
+    /*
      * The number of seconds before the job should be made available.
      *
-     * @var \DateTimeInterface|\DateInterval|int|null
+     * @var int|null
      */
     public $delay;
 }
 ```
+
+#### Customizing where messages are stored
+
+Coming soon...
+
+
+
 
 ### Code generation
 
