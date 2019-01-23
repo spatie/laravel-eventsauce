@@ -93,7 +93,7 @@ This package comes with a migration to store all messages. You can publish the m
 php artisan vendor:publish --provider="Spatie\LaravelEventSauce\EventSauceServiceProvider" --tag="migrations"
 ```
 
-To create the `stored_messages` table, run the migrations
+To create the `stored_messages` table, run the migrations.
 
 ```bash
 php artisan migrate
@@ -105,7 +105,7 @@ Next you must publish the `eventsauce` config file.
 php artisan vendor:publish --provider="EventSauce\LaravelEventSauce\EventSauceServiceProvider" --tag="config"
 ```
 
-This is the contents of the file that will be publish to `config/eventsauce.php`
+This is the contents of the file that will be publish to `config/eventsauce.php`:
 
 ```php
 return [
@@ -124,7 +124,7 @@ return [
     ],
 
     /*
-     * This class will be used by default to store events.
+     * This class will be used to store events.
      *
      * You may change this to any class that implements
      * \EventSauce\EventSourcing\MessageRepository
@@ -132,7 +132,7 @@ return [
     'message_repository' => \Spatie\LaravelEventSauce\Models\StoredMessage::class,
 
     /*
-     * This class will be used by default to put EventSauce message on the queued
+     * This class will be used to put EventSauce messages on the queue.
      *
      * You may change this to any class that extends
      * \Spatie\LaravelEventSauce\QueuedMessageJob::class
