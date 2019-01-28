@@ -3,7 +3,6 @@
 namespace Spatie\LaravelEventSauce;
 
 use Illuminate\Support\ServiceProvider;
-use EventSauce\EventSourcing\MessageRepository;
 use Spatie\LaravelEventSauce\Commands\GenerateCodeCommand;
 use EventSauce\EventSourcing\Serialization\MessageSerializer;
 use Spatie\LaravelEventSauce\Commands\MakeAggregateRootCommand;

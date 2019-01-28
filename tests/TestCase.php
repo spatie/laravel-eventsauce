@@ -18,8 +18,8 @@ class TestCase extends Orchestra
 
     protected function setUpDatabase()
     {
-        if (!class_exists('CreateDomainMessagesTable')) {
-            $contents = file_get_contents(__DIR__ . '/../src/Commands/stubs/create_domain_messages_table.php.stub');
+        if (! class_exists('CreateDomainMessagesTable')) {
+            $contents = file_get_contents(__DIR__.'/../src/Commands/stubs/create_domain_messages_table.php.stub');
 
             $contents = str_replace('<?php', '', $contents);
             $migrationCode = str_replace('{{ tableName }}', 'domain_messages', $contents);
@@ -41,7 +41,7 @@ class TestCase extends Orchestra
 
     protected function getStubPath(string $path): string
     {
-        return __DIR__ . "/stubs/{$path}";
+        return __DIR__."/stubs/{$path}";
     }
 
     protected function markTestPassed()

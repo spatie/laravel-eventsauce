@@ -2,15 +2,14 @@
 
 namespace Spatie\LaravelEventSauce;
 
-use EventSauce\EventSourcing\AggregateRootId;
+use Generator;
+use Ramsey\Uuid\Uuid;
+use Illuminate\Database\Connection;
 use EventSauce\EventSourcing\Header;
 use EventSauce\EventSourcing\Message;
-use EventSauce\EventSourcing\MessageRepository as EventSauceMessageRepository;
+use EventSauce\EventSourcing\AggregateRootId;
 use EventSauce\EventSourcing\Serialization\MessageSerializer;
-use Generator;
-use Illuminate\Database\Connection;
-use Illuminate\Support\Facades\DB;
-use Ramsey\Uuid\Uuid;
+use EventSauce\EventSourcing\MessageRepository as EventSauceMessageRepository;
 
 class MessageRepository implements EventSauceMessageRepository
 {
