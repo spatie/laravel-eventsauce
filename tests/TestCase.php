@@ -25,7 +25,6 @@ class TestCase extends Orchestra
             $contents = str_replace('{{ migrationClassName }}', 'CreateDomainMessagesTable', $contents);
             $migrationCode = str_replace('{{ tableName }}', 'domain_messages', $contents);
             eval($migrationCode);
-
         }
 
         (new CreateDomainMessagesTable())->up();
