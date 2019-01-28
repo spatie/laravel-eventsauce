@@ -29,7 +29,6 @@ class TestCase extends Orchestra
         }
 
         (new CreateDomainMessagesTable())->up();
-
     }
 
     protected function getPackageProviders($app)
