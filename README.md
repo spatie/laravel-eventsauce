@@ -18,7 +18,7 @@ Here's a quick example of how to create a new aggregate root and matching reposi
 php artisan make:aggregate-root "MyDomain\MyAggregateRoot"
 ```
 
-The `App\MyDomain\MyAggregateRoot` and `App\MyDomain\MyAggregateRootRepository` classes will have been created. This is how `MyAggregateRootRepository` looks like:
+The `App\MyDomain\MyAggregateRoot` and `App\MyDomain\MyAggregateRootRepository` classes will have been created. A migration to create `my_aggregate_root_domain_messages` will have been added to your application too.  This is how `MyAggregateRootRepository` looks like:
 
 ```php
 namespace App\MyDomain;
@@ -32,6 +32,9 @@ class MyAggregateRootRepository extends AggregateRootRepository
 {
     /** @var string */
     protected $aggregateRoot = MyAggregateRoot::class;
+
+    /** @var string */
+    protected $tableName = 'my_aggregate_root_domain_messages';
 
     /** @var array */
     protected $consumers = [
@@ -161,6 +164,9 @@ class MyAggregateRootRepository extends AggregateRootRepository
 {
     /** @var string */
     protected $aggregateRoot = MyAggregateRoot::class;
+    
+    /** @var string */
+    protected $tableName = 'my_aggregate_root_domain_messages';
 
     /** @var array */
     protected $consumers = [
@@ -176,7 +182,7 @@ class MyAggregateRootRepository extends AggregateRootRepository
 
 If you repository doesn't need consumers or queued consumers, you can safely remove those variables. The only required variable is `$aggregateRoot`.
 
-Of course you can also manually create an aggregate root repository. Just create a class, let it extend`Spatie\LaravelEventSauce\AggregateRootRepository`  and put the fully qualified classname of your aggregate root in a protected `$aggregateRoot` property.
+Of course you can also manually create an aggregate root repository. Just create a class, let it extend`Spatie\LaravelEventSauce\AggregateRootRepository`. Next, put the fully qualified classname of your aggregate root in a protected `$aggregateRoot` property. Finally add a `$tableName` property containing the name of the table where you want to store domain messages.
 
 ### Configuring the aggregate root repository
 
@@ -207,8 +213,6 @@ Here is an example:
 
 class MyAggregateRootRepository extends AggregateRootRepository
 {
-    protected $aggregateRoot = MyAggregateRoot::class;
-
     // ...
     
     protected $queuedMessageJob = MyCustomJob::class;
@@ -257,16 +261,12 @@ class MyCustomJob extends QueuedMessageJob
 }
 ```
 
-#### Customizing where messages are stored
+### Customizing how messages are stored
 
-By default all messages are stored in the `domain_messages` table. This is done behind the screens by the `Spatie\LaravelEventSauce\Models\StoredMessage` model.
-
-You can let an aggregate use a custom model by adding a `$messageRepository` property on your repository. That model should extend `Spatie\LaravelEventSauce\Models\StoredMessage`
-
-Here's an example where we want stored the messages in a table called `custom_domain_messages`. The first thing you need to do is to create a migration to create the table. Run `php artisan make:migration create_custom_domain_messages` and put this in the `up` method of the newly created migration.
+The `$tableName` property on your aggregate root repository determines where messages are being stored. You can change this to any name you want as long as you've created a a table with that name that has the following columns:
 
 ```php
-Schema::create('custom_domain_messages', function (Blueprint $table) {
+Schema::create('custom_table_name', function (Blueprint $table) {
     $table->increments('id');
     $table->string('event_id', 36);
     $table->string('event_type', 100);
@@ -276,47 +276,15 @@ Schema::create('custom_domain_messages', function (Blueprint $table) {
 });
 ```
 
-Next create a new model called `CustomStoredMessage` that extends `Spatie\LaravelEventSauce\Models\StoredMessage`
-
-```php
-namespace App;
-
-use Spatie\LaravelEventSauce\Models\StoredMessage;
-
-class CustomStoredMessage extends StoredMessage
-{
-}
-```
-
-And finally specify the classname of your custom model on the `$messageRepository` property of your aggregate.
+Laravel has support for multiple database connections. If you want let your repository use an alternative connection, you can just specify it's name in the `$connection` property 
 
 ```php
 // ...
 
-use App\CustomStoredMessage;
-
 class MyAggregateRootRepository extends AggregateRootRepository
 {
-    protected $aggregateRoot = MyAggregateRoot::class;
-
     // ...
     
-    protected $messageRepository = CustomStoredMessage::class;
-```
-
-Laravel has support for multiple database connections. If you want let your repository use an alternative connection, you can just specify the `$connection` property on the model used by the repository. Here's an example where we let our `CustomStoreMessage` model use an alternative connection.
-
-
-```php
-namespace App;
-
-use Spatie\LaravelEventSauce\Models\StoredMessage;
-
-class CustomStoredMessage extends StoredMessage
-{
-    /*
-     * The connection name for the model.
-     */
     protected $connection = 'connection-name';
 }
 ```
