@@ -17,18 +17,6 @@ class EventSauceServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__.'/../config/eventsauce.php' => config_path('eventsauce.php'),
             ], 'config');
-
-            $this->publishes([
-                __DIR__.'/../database/migrations' => database_path('migrations'),
-            ], 'migrations');
-
-            if (! class_exists('CreateStatusesTable')) {
-                $timestamp = date('Y_m_d_His', time());
-
-                $this->publishes([
-                    __DIR__.'/../database/migrations/create_domain_messages_table.php.stub' => database_path('migrations/'.$timestamp.'_create_domain_messages_table.php'),
-                ], 'migrations');
-            }
         }
     }
 

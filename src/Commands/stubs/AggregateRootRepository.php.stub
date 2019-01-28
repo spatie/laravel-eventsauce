@@ -12,6 +12,8 @@ class {{ aggregateRootClass }}Repository extends AggregateRootRepository
     /** @var string */
     protected $aggregateRoot = {{ aggregateRootClass }}::class;
 
+    protected $tableName = '{{ tableName }}';
+
     /** @var array */
     protected $consumers = [
 

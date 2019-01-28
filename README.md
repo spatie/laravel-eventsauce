@@ -87,18 +87,6 @@ You can install the package via composer:
 composer require eventsauce/laravel-eventsauce
 ```
 
-This package comes with a migration to store all messages. You can publish the migration file using:
-
-```bash
-php artisan vendor:publish --provider="Spatie\LaravelEventSauce\EventSauceServiceProvider" --tag="migrations"
-```
-
-To create the `domain_messages` table, run the migrations.
-
-```bash
-php artisan migrate
-```
-
 Next you must publish the `eventsauce` config file.
 
 ```bash
@@ -124,12 +112,18 @@ return [
     ],
 
     /*
-     * This class will be used to store events.
+     * This connection name will be used to storge messages. When
+     * set to null the default connection will be used.
+     */
+    'database_connection' => null,
+
+    /*
+     * This class will be used to store messages.
      *
      * You may change this to any class that implements
      * \EventSauce\EventSourcing\MessageRepository
      */
-    'message_repository' => \Spatie\LaravelEventSauce\Models\StoredMessage::class,
+    'message_repository' => \Spatie\LaravelEventSauce\MessageRepository::class,
 
     /*
      * This class will be used to put EventSauce messages on the queue.

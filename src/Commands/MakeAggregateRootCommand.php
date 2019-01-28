@@ -38,12 +38,25 @@ class MakeAggregateRootCommand extends Command
         $replacements = [
             'aggregateRootClass' => class_basename($aggregateRootFqcn),
             'namespace' => substr($aggregateRootFqcn, 0, strrpos($aggregateRootFqcn, '\\')),
+            'tableName' => snake_case(class_basename($aggregateRootFqcn)) . '_domain_messages',
+            'migrationClassName' => 'Create' . ucfirst(class_basename($aggregateRootFqcn)) . 'DomainMessagesTable',
         ];
 
-        $this->filesystem->put($aggregateRootPath, $this->getClassContent('AggregateRoot', $replacements));
-        $this->filesystem->put($aggregateRootRepositoryPath, $this->getClassContent('AggregateRootRepository', $replacements));
+        $this->filesystem->put($aggregateRootPath, $this->getStubContent('AggregateRoot', $replacements));
+        $this->filesystem->put($aggregateRootRepositoryPath, $this->getStubContent('AggregateRootRepository', $replacements));
 
-        $this->info('Aggregate root created successfully!');
+        $this->createMigration($replacements);
+
+        $this->info('Aggregate root classes and migration created successfully!');
+        $this->comment("Run `php artisan migrate` to create the {$replacements['tableName']} table.");
+    }
+
+    protected function createMigration(array $replacements)
+    {
+        $timestamp = now()->format('Y_m_d_His');
+
+        $migrationFileName = "{$timestamp}_create_{$replacements['tableName']}_table.php";
+        $this->filesystem->put(database_path("migrations/{$migrationFileName}"), $this->getStubContent('create_domain_messages_table', $replacements));
     }
 
     protected function getPath(string $name): string
@@ -84,7 +97,7 @@ class MakeAggregateRootCommand extends Command
         }
     }
 
-    protected function getClassContent(string $stubName, array $replacements): string
+    protected function getStubContent(string $stubName, array $replacements): string
     {
         $content = $this->filesystem->get(__DIR__."/stubs/{$stubName}.php.stub");
 
@@ -94,4 +107,6 @@ class MakeAggregateRootCommand extends Command
 
         return $content;
     }
+
+
 }

@@ -2,6 +2,7 @@
 
 namespace Spatie\LaravelEventSauce\Tests\Commands;
 
+use Carbon\Carbon;
 use Illuminate\Filesystem\Filesystem;
 use Spatie\LaravelEventSauce\Tests\TestCase;
 use Spatie\LaravelEventSauce\Commands\MakeAggregateRootCommand;
@@ -9,7 +10,7 @@ use Spatie\LaravelEventSauce\Tests\Mocks\Filesystem as FilesystemMock;
 
 class MakeAggregateRootCommandTest extends TestCase
 {
-    /** @var \Tests\Mocks\Filesystem */
+    /** @var \Spatie\LaravelEventSauce\Tests\Mocks\Filesystem */
     protected $filesystem;
 
     public function setUp()
@@ -24,6 +25,8 @@ class MakeAggregateRootCommandTest extends TestCase
             ->give(function () {
                 return $this->filesystem;
             });
+
+        Carbon::setTestNow(Carbon::createFromFormat('YmdHis', '20190101000000'));
     }
 
     /** @test */
@@ -33,6 +36,7 @@ class MakeAggregateRootCommandTest extends TestCase
 
         $this->filesystem
             ->assertWrittenTo('laravel/app/Directory/Process.php')
-            ->assertWrittenTo('laravel/app/Directory/ProcessRepository.php');
+            ->assertWrittenTo('laravel/app/Directory/ProcessRepository.php')
+            ->assertWrittenTo('laravel/database/migrations/2019_01_01_000000_create_process_domain_messages_table.php');
     }
 }
