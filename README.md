@@ -261,7 +261,7 @@ class MyCustomJob extends QueuedMessageJob
 }
 ```
 
-### Customizing how messages are stored
+### Customizing the table name where messages are stored
 
 The `$tableName` property on your aggregate root repository determines where messages are being stored. You can change this to any name you want as long as you've created a a table with that name that has the following columns:
 
@@ -276,7 +276,11 @@ Schema::create('custom_table_name', function (Blueprint $table) {
 });
 ```
 
-Laravel has support for multiple database connections. If you want let your repository use an alternative connection, you can just specify it's name in the `$connection` property 
+### Specifying a connextion
+
+Laravel has support for multiple database connections. By default the aggregate root will use Laravel's default connection. If you want all your aggregate roots to use a the same alternative connection then specify that connection name in the `connection` property of the `eventsauce` config file.
+
+If you want let a specific repository use an alternative connection, you can just specify it's name in the `$connection` property 
 
 ```php
 // ...
