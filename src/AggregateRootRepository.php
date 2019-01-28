@@ -12,6 +12,8 @@ use EventSauce\EventSourcing\MessageDispatcherChain;
 use EventSauce\EventSourcing\SynchronousMessageDispatcher;
 use EventSauce\EventSourcing\ConstructingAggregateRootRepository;
 use EventSauce\EventSourcing\AggregateRootRepository as EventSauceAggregateRootRepository;
+use Illuminate\Database\Connection;
+use Illuminate\Support\Facades\DB;
 
 abstract class AggregateRootRepository implements EventSauceAggregateRootRepository
 {
@@ -23,6 +25,12 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
 
     /** @var array */
     protected $queuedConsumers = [];
+
+    /** @var string|null */
+    protected $connectionName = null;
+
+    /** @var string */
+    protected $tableName = 'domain_messages';
 
     /** @var string|null */
     protected $messageRepository = null;
@@ -90,9 +98,21 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
 
     protected function getMessageRepository(): MessageRepository
     {
-        $messageRepositoryClass = $this->messageRepository ?? MessageRepository::class;
+        $messageRepositoryClass = $this->messageRepository ?? config('eventsauce.message_repository');
 
-        return app($messageRepositoryClass);
+        return app()->makeWith($messageRepositoryClass, [
+            'connection' => $this->getConnection(),
+            'tableName' => $this->tableName,
+        ]);
+    }
+
+    protected function getConnection(): Connection
+    {
+        $connectionName = $this->connectionName
+            ?? config('eventsauce.database_connection')
+            ?? config('database.default');
+
+        return DB::connection($connectionName);
     }
 
     protected function getConsumers(): array

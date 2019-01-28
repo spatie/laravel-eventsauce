@@ -93,7 +93,7 @@ This package comes with a migration to store all messages. You can publish the m
 php artisan vendor:publish --provider="Spatie\LaravelEventSauce\EventSauceServiceProvider" --tag="migrations"
 ```
 
-To create the `stored_messages` table, run the migrations.
+To create the `domain_messages` table, run the migrations.
 
 ```bash
 php artisan migrate
@@ -265,14 +265,14 @@ class MyCustomJob extends QueuedMessageJob
 
 #### Customizing where messages are stored
 
-By default all messages are stored in the `stored_messages` table. This is done behind the screens by the `Spatie\LaravelEventSauce\Models\StoredMessage` model.
+By default all messages are stored in the `domain_messages` table. This is done behind the screens by the `Spatie\LaravelEventSauce\Models\StoredMessage` model.
 
 You can let an aggregate use a custom model by adding a `$messageRepository` property on your repository. That model should extend `Spatie\LaravelEventSauce\Models\StoredMessage`
 
-Here's an example where we want stored the messages in a table called `custom_stored_messages`. The first thing you need to do is to create a migration to create the table. Run `php artisan make:migration create_custom_stored_messages` and put this in the `up` method of the newly created migration.
+Here's an example where we want stored the messages in a table called `custom_domain_messages`. The first thing you need to do is to create a migration to create the table. Run `php artisan make:migration create_custom_domain_messages` and put this in the `up` method of the newly created migration.
 
 ```php
-Schema::create('custom_stored_messages', function (Blueprint $table) {
+Schema::create('custom_domain_messages', function (Blueprint $table) {
     $table->increments('id');
     $table->string('event_id', 36);
     $table->string('event_type', 100);

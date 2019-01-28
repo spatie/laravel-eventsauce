@@ -47,22 +47,21 @@ class AggregateRootRepositoryTest extends TestCase
 
         $this->recordTestEvent($repository);
 
-        $this->assertCount(1, StoredMessage::get());
+        $this->assertCount(1, DB::table('domain_messages')->get());
     }
 
     /** @test */
-    public function it_can_use_an_alternative_message_repository()
+    public function it_can_use_an_alternative_table_name()
     {
-        DB::select('CREATE TABLE `other_stored_messages` AS SELECT * FROM `stored_messages` WHERE 0
-');
+        DB::select('CREATE TABLE `other_domain_messages` AS SELECT * FROM `domain_messages` WHERE 0');
 
         $repository = new class() extends Repository {
-            protected $messageRepository = OtherStoredMessage::class;
+            protected $tableName = 'other_domain_messages';
         };
 
         $this->recordTestEvent($repository);
 
-        $this->assertCount(1, DB::table('other_stored_messages')->get());
+        $this->assertCount(1, DB::table('other_domain_messages')->get());
     }
 
     /** @test */

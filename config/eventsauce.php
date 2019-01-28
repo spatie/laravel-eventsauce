@@ -16,12 +16,18 @@ return [
     ],
 
     /*
-     * This class will be used to store events.
+     * This connection name will be used to storge messages. When
+     * set to null the default connection will be used.
+     */
+    'database_connection' => null,
+
+    /*
+     * This class will be used to store messages.
      *
      * You may change this to any class that implements
      * \EventSauce\EventSourcing\MessageRepository
      */
-    'message_repository' => \Spatie\LaravelEventSauce\Models\StoredMessage::class,
+    'message_repository' => \Spatie\LaravelEventSauce\MessageRepository::class,
 
     /*
      * This class will be used to put EventSauce messages on the queue.

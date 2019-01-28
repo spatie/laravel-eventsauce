@@ -5,13 +5,27 @@ namespace Spatie\LaravelEventSauce\Tests;
 use DateTimeImmutable;
 use EventSauce\EventSourcing\Header;
 use EventSauce\EventSourcing\Message;
+use EventSauce\EventSourcing\MessageRepository;
 use EventSauce\EventSourcing\PointInTime;
+use Illuminate\Support\Facades\DB;
 use Spatie\LaravelEventSauce\Models\StoredMessage;
 use Spatie\LaravelEventSauce\Tests\TestClasses\TestEvent;
 use Spatie\LaravelEventSauce\Tests\TestClasses\Identifier;
 
-class StoredMessageTest extends TestCase
+class MessageRepositoryTest extends TestCase
 {
+    /** @var \EventSauce\EventSourcing\MessageRepository */
+    protected $messageRepository;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $messageRepositoryClass = config('eventsauce.message_repository');
+
+        $this->messageRepository = app()->makeWith($messageRepositoryClass, ['tableName' => 'domain_messages']);
+    }
+
     /** @test */
     public function it_can_store_a_message()
     {
@@ -26,17 +40,19 @@ class StoredMessageTest extends TestCase
 
         $message = new Message($testEvent, $headers);
 
-        (new StoredMessage())->persist($message);
+        $this->messageRepository->persist($message);
 
-        $storedEvent = StoredMessage::first();
+        $storedDomainMessage = DB::table('domain_messages')->first();
 
-        $this->assertEquals($headers[Header::EVENT_ID], $storedEvent->event_id);
+        $this->assertEquals($headers[Header::EVENT_ID], $storedDomainMessage->event_id);
         $this->assertEquals($headers[Header::EVENT_TYPE], get_class($testEvent));
-        $this->assertEquals($headers[Header::AGGREGATE_ROOT_ID], $storedEvent->aggregate_root_id);
-        $this->assertEquals($headers[Header::TIME_OF_RECORDING], $storedEvent->recorded_at);
+        $this->assertEquals($headers[Header::AGGREGATE_ROOT_ID], $storedDomainMessage->aggregate_root_id);
+        $this->assertEquals($headers[Header::TIME_OF_RECORDING], $storedDomainMessage->recorded_at);
 
-        $this->assertCount(4, $storedEvent->payload['headers']);
-        $this->assertEquals(1, $storedEvent->payload['payload']['amount']);
+        $payload = json_decode($storedDomainMessage->payload, true);
+
+        $this->assertCount(4, $payload['headers']);
+        $this->assertEquals(1, $payload['payload']['amount']);
     }
 
     /** @test */
@@ -53,11 +69,11 @@ class StoredMessageTest extends TestCase
 
         $message = new Message($testEvent, $headers);
 
-        (new StoredMessage())->persist($message);
+        $this->messageRepository->persist($message);
 
         $identifier = new Identifier(1);
 
-        $messages = (new StoredMessage())->retrieveAll($identifier);
+        $messages = $this->messageRepository->retrieveAll($identifier);
 
         $messageArray = [];
 

@@ -4,11 +4,11 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateStoredMessagesTable extends Migration
+class CreateDomainMessagesTable extends Migration
 {
     public function up()
     {
-        Schema::create('stored_messages', function (Blueprint $table) {
+        Schema::create('domain_messages', function (Blueprint $table) {
             $table->increments('id');
             $table->string('event_id', 36);
             $table->string('event_type', 100);
@@ -20,6 +20,6 @@ class CreateStoredMessagesTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('stored_messages');
+        Schema::dropIfExists('domain_messages');
     }
 }
