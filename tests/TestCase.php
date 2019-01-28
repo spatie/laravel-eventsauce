@@ -22,11 +22,14 @@ class TestCase extends Orchestra
             $contents = file_get_contents(__DIR__.'/../src/Commands/stubs/create_domain_messages_table.php.stub');
 
             $contents = str_replace('<?php', '', $contents);
+            $contents = str_replace('{{ migrationClassName }}', 'CreateDomainMessagesTable', $contents);
             $migrationCode = str_replace('{{ tableName }}', 'domain_messages', $contents);
-
             eval($migrationCode);
+
         }
+
         (new CreateDomainMessagesTable())->up();
+
     }
 
     protected function getPackageProviders($app)
