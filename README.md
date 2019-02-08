@@ -1,5 +1,3 @@
-**THIS PACKAGE IS STILL IN DEVELOPMENT**
-
 # Use EventSauce in Laravel apps
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-eventsauce.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-eventsauce)
