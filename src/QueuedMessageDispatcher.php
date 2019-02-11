@@ -35,7 +35,7 @@ class QueuedMessageDispatcher implements EventSauceMessageDispatcher
 
         dispatch(new $this->jobClass(
             $messages,
-            $this->consumers
+            $this->consumers,
         ));
     }
 }

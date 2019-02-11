@@ -56,7 +56,10 @@ class MakeAggregateRootCommand extends Command
         $timestamp = now()->format('Y_m_d_His');
 
         $migrationFileName = "{$timestamp}_create_{$replacements['tableName']}_table.php";
-        $this->filesystem->put(database_path("migrations/{$migrationFileName}"), $this->getStubContent('create_domain_messages_table', $replacements));
+        $this->filesystem->put(
+            database_path("migrations/{$migrationFileName}"),
+            $this->getStubContent('create_domain_messages_table', $replacements),
+        );
     }
 
     protected function getPath(string $name): string
