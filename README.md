@@ -1,5 +1,3 @@
-**THIS PACKAGE IS STILL IN DEVELOPMENT**
-
 # Use EventSauce in Laravel apps
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-eventsauce.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-eventsauce)
@@ -276,7 +274,7 @@ Schema::create('custom_table_name', function (Blueprint $table) {
 });
 ```
 
-### Specifying a connextion
+### Specifying a connection
 
 Laravel has support for multiple database connections. By default the aggregate root will use Laravel's default connection. If you want all your aggregate roots to use a the same alternative connection then specify that connection name in the `connection` property of the `eventsauce` config file.
 
