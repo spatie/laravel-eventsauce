@@ -33,9 +33,6 @@ class TestEvent implements SerializableEvent
         ];
     }
 
-    /**
-     * @codeCoverageIgnore
-     */
     public static function withAmount(int $amount): MoneySubtracted
     {
         return new MoneySubtracted(
