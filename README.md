@@ -84,7 +84,7 @@ class CommandHandler
 You can install the package via composer:
 
 ```bash
-composer require eventsauce/laravel-eventsauce
+composer require spatie/laravel-eventsauce
 ```
 
 Next you must publish the `eventsauce` config file.
