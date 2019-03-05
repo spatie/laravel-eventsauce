@@ -13,7 +13,7 @@ class MakeAggregateRootCommandTest extends TestCase
     /** @var \Spatie\LaravelEventSauce\Tests\Mocks\Filesystem */
     protected $filesystem;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

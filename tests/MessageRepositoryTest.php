@@ -15,7 +15,7 @@ class MessageRepositoryTest extends TestCase
     /** @var \EventSauce\EventSourcing\MessageRepository */
     protected $messageRepository;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

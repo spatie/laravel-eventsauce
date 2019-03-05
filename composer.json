@@ -27,16 +27,15 @@
         "php": "^7.3",
         "ext-json": "*",
         "eventsauce/eventsauce": "^0.5.0",
-        "illuminate/bus": "^5.7",
-        "illuminate/container": "^5.7",
-        "illuminate/queue": "^5.7",
-        "illuminate/support": "^5.7",
+        "illuminate/bus": "^5.7|^5.8",
+        "illuminate/container": "^5.7|^5.8",
+        "illuminate/queue": "^5.7|^5.8",
+        "illuminate/support": "^5.7|^5.8",
         "ramsey/uuid": "^3.8",
         "spatie/temporary-directory": "^1.1"
     },
     "require-dev": {
-        "orchestra/testbench": "^3.7.6",
-        "phpunit/phpunit": "^7.4"
+        "orchestra/testbench": "^3.7.6|^3.8"
     },
     "autoload": {
         "psr-4": {

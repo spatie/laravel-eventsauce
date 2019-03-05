@@ -9,7 +9,7 @@ use Spatie\LaravelEventSauce\EventSauceServiceProvider;
 
 class TestCase extends Orchestra
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
