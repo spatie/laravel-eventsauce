@@ -90,7 +90,7 @@ composer require spatie/laravel-eventsauce
 Next you must publish the `eventsauce` config file.
 
 ```bash
-php artisan vendor:publish --provider="EventSauce\LaravelEventSauce\EventSauceServiceProvider" --tag="config"
+php artisan vendor:publish --provider="Spatie\LaravelEventSauce\EventSauceServiceProvider" --tag="config"
 ```
 
 This is the contents of the file that will be publish to `config/eventsauce.php`:
