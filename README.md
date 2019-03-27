@@ -112,7 +112,7 @@ return [
     ],
 
     /*
-     * This connection name will be used to storge messages. When
+     * This connection name will be used to store messages. When
      * set to null the default connection will be used.
      */
     'database_connection' => null,
