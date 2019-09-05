@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-eventsauce` will be documented in this file
 
+## Next
+
+- add support for Laravel 6.0
+
 ## 1.0.1 - 2019-03-05
 
 - add support for Laravel 5.8
