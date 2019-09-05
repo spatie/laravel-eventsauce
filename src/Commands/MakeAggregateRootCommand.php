@@ -38,7 +38,7 @@ class MakeAggregateRootCommand extends Command
         $replacements = [
             'aggregateRootClass' => class_basename($aggregateRootFqcn),
             'namespace' => substr($aggregateRootFqcn, 0, strrpos($aggregateRootFqcn, '\\')),
-            'tableName' => snake_case(class_basename($aggregateRootFqcn)).'_domain_messages',
+            'tableName' => Str::snake(class_basename($aggregateRootFqcn)).'_domain_messages',
             'migrationClassName' => 'Create'.ucfirst(class_basename($aggregateRootFqcn)).'DomainMessagesTable',
         ];
 

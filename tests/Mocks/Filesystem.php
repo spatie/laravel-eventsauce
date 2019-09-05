@@ -2,6 +2,7 @@
 
 namespace Spatie\LaravelEventSauce\Tests\Mocks;
 
+use Illuminate\Support\Str;
 use PHPUnit\Framework\Assert;
 use Illuminate\Filesystem\Filesystem as IlluminateFilesystem;
 
@@ -11,7 +12,7 @@ class Filesystem extends IlluminateFilesystem
 
     public function put($path, $contents, $lock = false)
     {
-        $relativePath = str_after($path, 'Concerns/../../');
+        $relativePath = Str::after($path, 'Concerns/../../');
 
         $this->puts[$relativePath] = $contents;
     }
