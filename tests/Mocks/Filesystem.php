@@ -12,7 +12,7 @@ class Filesystem extends IlluminateFilesystem
 
     public function put($path, $contents, $lock = false)
     {
-        $relativePath = Str::after($path, getcwd() . '/vendor/orchestra/testbench-core/');
+        $relativePath = Str::after($path, getcwd().'/vendor/orchestra/testbench-core/');
 
         $this->puts[$relativePath] = $contents;
     }
