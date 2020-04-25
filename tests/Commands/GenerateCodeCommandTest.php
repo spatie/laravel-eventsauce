@@ -2,8 +2,8 @@
 
 namespace Spatie\LaravelEventSauce\Tests\Commands;
 
-use Spatie\LaravelEventSauce\Tests\TestCase;
 use Spatie\LaravelEventSauce\Exceptions\InvalidConfiguration;
+use Spatie\LaravelEventSauce\Tests\TestCase;
 
 class GenerateCodeCommandTest extends TestCase
 {
@@ -12,7 +12,7 @@ class GenerateCodeCommandTest extends TestCase
     {
         $outputFile = $this->getTemporaryDirectory()->path('generated-code.php');
 
-        $this->assertFileDoesNotExist($outputFile);
+        $this->assertFileNotExists($outputFile);
 
         config()->set('eventsauce.code_generation', [
             ['input_yaml_file' => $this->getStubPath('commands-and-events.yml'), 'output_file' => $outputFile],
