@@ -2,8 +2,8 @@
 
 namespace Spatie\LaravelEventSauce\Tests\Commands;
 
-use Spatie\LaravelEventSauce\Tests\TestCase;
 use Spatie\LaravelEventSauce\Exceptions\InvalidConfiguration;
+use Spatie\LaravelEventSauce\Tests\TestCase;
 
 class GenerateCodeCommandTest extends TestCase
 {

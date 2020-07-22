@@ -2,14 +2,15 @@
 
 namespace Spatie\LaravelEventSauce;
 
-use Generator;
-use Ramsey\Uuid\Uuid;
-use Illuminate\Database\Connection;
+use EventSauce\EventSourcing\AggregateRootId;
 use EventSauce\EventSourcing\Header;
 use EventSauce\EventSourcing\Message;
-use EventSauce\EventSourcing\AggregateRootId;
-use EventSauce\EventSourcing\Serialization\MessageSerializer;
 use EventSauce\EventSourcing\MessageRepository as EventSauceMessageRepository;
+use EventSauce\EventSourcing\Serialization\MessageSerializer;
+use Exception;
+use Generator;
+use Illuminate\Database\Connection;
+use Ramsey\Uuid\Uuid;
 
 class MessageRepository implements EventSauceMessageRepository
 {
@@ -22,6 +23,13 @@ class MessageRepository implements EventSauceMessageRepository
     /** @var \EventSauce\EventSourcing\Serialization\MessageSerializer */
     protected $serializer;
 
+    /**
+     * MessageRepository constructor.
+     *
+     * @param  \Illuminate\Database\Connection                            $connection
+     * @param  string                                                     $tableName
+     * @param  \EventSauce\EventSourcing\Serialization\MessageSerializer  $serializer
+     */
     public function __construct(Connection $connection, string $tableName, MessageSerializer $serializer)
     {
         $this->connection = $connection;
@@ -31,6 +39,9 @@ class MessageRepository implements EventSauceMessageRepository
         $this->serializer = $serializer;
     }
 
+    /**
+     * @param  \EventSauce\EventSourcing\Message  ...$messages
+     */
     public function persist(Message ...$messages)
     {
         foreach ($messages as $message) {
@@ -48,6 +59,10 @@ class MessageRepository implements EventSauceMessageRepository
         }
     }
 
+    /**
+     * @param  \EventSauce\EventSourcing\AggregateRootId  $id
+     * @return \Generator
+     */
     public function retrieveAll(AggregateRootId $id): Generator
     {
         $payloads = $this->connection
@@ -60,5 +75,16 @@ class MessageRepository implements EventSauceMessageRepository
         foreach ($payloads as $payload) {
             yield from $this->serializer->unserializePayload(json_decode($payload->payload, true));
         }
+    }
+
+    /**
+     * @param  \EventSauce\EventSourcing\AggregateRootId  $id
+     * @param  int                                        $aggregateRootVersion
+     * @return \Generator
+     * @throws \Exception
+     */
+    public function retrieveAllAfterVersion(AggregateRootId $id, int $aggregateRootVersion): Generator
+    {
+        throw new Exception('Snapshotting not supported yet.');
     }
 }

@@ -2,9 +2,9 @@
 
 namespace Spatie\LaravelEventSauce\Tests\TestClasses;
 
-use EventSauce\EventSourcing\Serialization\SerializableEvent;
+use EventSauce\EventSourcing\Serialization\SerializablePayload;
 
-class TestEvent implements SerializableEvent
+class TestEvent implements SerializablePayload
 {
     /** @var int */
     public $number;
@@ -19,7 +19,7 @@ class TestEvent implements SerializableEvent
         return $this->number;
     }
 
-    public static function fromPayload(array $payload): SerializableEvent
+    public static function fromPayload(array $payload): SerializablePayload
     {
         return new self(
             (int) $payload['amount']

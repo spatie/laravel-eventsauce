@@ -5,3 +5,4 @@ vendor
 coverage
 tests/temp
 .idea
+.phpunit.result.cache
