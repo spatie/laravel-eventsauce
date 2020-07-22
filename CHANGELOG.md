@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-eventsauce` will be documented in this file
 
+## 2.0.0 - 2020-07-22
+
+- add support for Laravel 7.0
+
 ## 1.1.0 - 2019-07-09
 
 - add support for Laravel 6.0
