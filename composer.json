@@ -36,7 +36,8 @@
         "spatie/temporary-directory": "^1.2"
     },
     "require-dev": {
-        "orchestra/testbench": "^5.0"
+        "orchestra/testbench": "^5.0",
+        "phpunit/phpunit": "^9.2.6"
     },
     "autoload": {
         "psr-4": {
