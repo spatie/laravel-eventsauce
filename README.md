@@ -1,8 +1,7 @@
 # Use EventSauce in Laravel apps
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-eventsauce.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-eventsauce)
-[![Build Status](https://img.shields.io/travis/spatie/laravel-eventsauce/master.svg?style=flat-square)](https://travis-ci.org/spatie/laravel-eventsauce)
-[![Quality Score](https://img.shields.io/scrutinizer/g/spatie/laravel-eventsauce.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/laravel-eventsauce)
+![Tests](https://github.com/spatie/laravel-eventsauce/workflows/run-tests/badge.svg)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-eventsauce.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-eventsauce)
 
 [EventSauce](https://eventsauce.io/) is an easy way to introduce event sourcing into PHP projects.  This package allows EventSauce to make use of Laravel's migrations, models and jobs. It can also help with generating code for commands and events. If you want to use EventSauce in a Laravel app, this package is the way to go!
