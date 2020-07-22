@@ -4,8 +4,8 @@ namespace Spatie\LaravelEventSauce\Tests;
 
 use CreateDomainMessagesTable;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Spatie\TemporaryDirectory\TemporaryDirectory;
 use Spatie\LaravelEventSauce\EventSauceServiceProvider;
+use Spatie\TemporaryDirectory\TemporaryDirectory;
 
 class TestCase extends Orchestra
 {

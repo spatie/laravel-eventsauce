@@ -2,9 +2,9 @@
 
 namespace Spatie\LaravelEventSauce\Commands;
 
-use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Str;
 use Spatie\LaravelEventSauce\Exceptions\CouldNotMakeAggregateRoot;
 
 class MakeAggregateRootCommand extends Command

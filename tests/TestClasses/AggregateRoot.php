@@ -2,9 +2,9 @@
 
 namespace Spatie\LaravelEventSauce\Tests\TestClasses;
 
+use EventSauce\EventSourcing\AggregateRoot as EventSauceAggregateRoot;
 use EventSauce\EventSourcing\AggregateRootBehaviour;
 use Spatie\LaravelEventSauce\Concerns\IgnoresMissingMethods;
-use EventSauce\EventSourcing\AggregateRoot as EventSauceAggregateRoot;
 
 class AggregateRoot implements EventSauceAggregateRoot
 {

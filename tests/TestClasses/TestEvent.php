@@ -9,7 +9,8 @@ class TestEvent implements SerializablePayload
     /** @var int */
     public $number;
 
-    public function __construct(int $number
+    public function __construct(
+        int $number
     ) {
         $this->number = $number;
     }

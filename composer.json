@@ -27,6 +27,7 @@
         "php": "^7.4",
         "ext-json": "*",
         "eventsauce/eventsauce": "^0.8",
+        "friendsofphp/php-cs-fixer": "^2.16",
         "illuminate/bus": "^7.0",
         "illuminate/container": "^7.0",
         "illuminate/queue": "^7.0",
@@ -48,6 +49,7 @@
         }
     },
     "scripts": {
+        "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes",
         "test": "vendor/bin/phpunit",
         "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
 

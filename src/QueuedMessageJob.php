@@ -2,14 +2,14 @@
 
 namespace Spatie\LaravelEventSauce;
 
-use Illuminate\Bus\Queueable;
+use EventSauce\EventSourcing\Consumer;
 use EventSauce\EventSourcing\Header;
 use EventSauce\EventSourcing\Message;
-use EventSauce\EventSourcing\Consumer;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use EventSauce\EventSourcing\MessageDispatcher;
 use EventSauce\EventSourcing\SynchronousMessageDispatcher;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
 
 class QueuedMessageJob implements ShouldQueue
 {

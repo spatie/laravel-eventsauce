@@ -4,9 +4,9 @@ namespace Spatie\LaravelEventSauce\Tests\Commands;
 
 use Carbon\Carbon;
 use Illuminate\Filesystem\Filesystem;
-use Spatie\LaravelEventSauce\Tests\TestCase;
 use Spatie\LaravelEventSauce\Commands\MakeAggregateRootCommand;
 use Spatie\LaravelEventSauce\Tests\Mocks\Filesystem as FilesystemMock;
+use Spatie\LaravelEventSauce\Tests\TestCase;
 
 class MakeAggregateRootCommandTest extends TestCase
 {

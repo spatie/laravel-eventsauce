@@ -3,12 +3,12 @@
 namespace Spatie\LaravelEventSauce\Tests;
 
 use DateTimeImmutable;
-use Illuminate\Support\Facades\DB;
 use EventSauce\EventSourcing\Header;
 use EventSauce\EventSourcing\Message;
 use EventSauce\EventSourcing\PointInTime;
-use Spatie\LaravelEventSauce\Tests\TestClasses\TestEvent;
+use Illuminate\Support\Facades\DB;
 use Spatie\LaravelEventSauce\Tests\TestClasses\Identifier;
+use Spatie\LaravelEventSauce\Tests\TestClasses\TestEvent;
 
 class MessageRepositoryTest extends TestCase
 {

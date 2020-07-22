@@ -2,11 +2,11 @@
 
 namespace Spatie\LaravelEventSauce;
 
+use EventSauce\EventSourcing\Serialization\ConstructingMessageSerializer;
+use EventSauce\EventSourcing\Serialization\MessageSerializer;
 use Illuminate\Support\ServiceProvider;
 use Spatie\LaravelEventSauce\Commands\GenerateCodeCommand;
-use EventSauce\EventSourcing\Serialization\MessageSerializer;
 use Spatie\LaravelEventSauce\Commands\MakeAggregateRootCommand;
-use EventSauce\EventSourcing\Serialization\ConstructingMessageSerializer;
 
 class EventSauceServiceProvider extends ServiceProvider
 {

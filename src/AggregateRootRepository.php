@@ -2,18 +2,18 @@
 
 namespace Spatie\LaravelEventSauce;
 
-use Exception;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Connection;
-use EventSauce\EventSourcing\Consumer;
 use EventSauce\EventSourcing\AggregateRoot;
 use EventSauce\EventSourcing\AggregateRootId;
-use EventSauce\EventSourcing\MessageDecorator;
-use EventSauce\EventSourcing\MessageRepository;
-use EventSauce\EventSourcing\MessageDispatcherChain;
-use EventSauce\EventSourcing\SynchronousMessageDispatcher;
-use EventSauce\EventSourcing\ConstructingAggregateRootRepository;
 use EventSauce\EventSourcing\AggregateRootRepository as EventSauceAggregateRootRepository;
+use EventSauce\EventSourcing\ConstructingAggregateRootRepository;
+use EventSauce\EventSourcing\Consumer;
+use EventSauce\EventSourcing\MessageDecorator;
+use EventSauce\EventSourcing\MessageDispatcherChain;
+use EventSauce\EventSourcing\MessageRepository;
+use EventSauce\EventSourcing\SynchronousMessageDispatcher;
+use Exception;
+use Illuminate\Database\Connection;
+use Illuminate\Support\Facades\DB;
 
 abstract class AggregateRootRepository implements EventSauceAggregateRootRepository
 {
