@@ -28,15 +28,15 @@
         "ext-json": "*",
         "eventsauce/eventsauce": "^0.8",
         "friendsofphp/php-cs-fixer": "^2.16",
-        "illuminate/bus": "^7.0",
-        "illuminate/container": "^7.0",
-        "illuminate/queue": "^7.0",
-        "illuminate/support": "^7.0",
+        "illuminate/bus": "^7.0|^8.0",
+        "illuminate/container": "^7.0|^8.0",
+        "illuminate/queue": "^7.0|^8.0",
+        "illuminate/support": "^7.0|^8.0",
         "ramsey/uuid": "^4.0",
         "spatie/temporary-directory": "^1.2"
     },
     "require-dev": {
-        "orchestra/testbench": "^5.0",
+        "orchestra/testbench": "^5.0|^6.0",
         "phpunit/phpunit": "^9.4.0"
     },
     "autoload": {
