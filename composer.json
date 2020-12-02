@@ -24,7 +24,7 @@
         }
     ],
     "require": {
-        "php": "^7.4",
+        "php": "^8.0|^7.4",
         "ext-json": "*",
         "eventsauce/eventsauce": "^0.8",
         "friendsofphp/php-cs-fixer": "^2.16",
@@ -37,7 +37,7 @@
     },
     "require-dev": {
         "orchestra/testbench": "^5.0",
-        "phpunit/phpunit": "^9.2.6"
+        "phpunit/phpunit": "^9.4.0"
     },
     "autoload": {
         "psr-4": {
