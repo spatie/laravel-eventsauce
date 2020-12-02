@@ -27,7 +27,6 @@
         "php": "^8.0|^7.4",
         "ext-json": "*",
         "eventsauce/eventsauce": "^0.8",
-        "friendsofphp/php-cs-fixer": "^2.16",
         "illuminate/bus": "^7.0|^8.0",
         "illuminate/container": "^7.0|^8.0",
         "illuminate/queue": "^7.0|^8.0",
