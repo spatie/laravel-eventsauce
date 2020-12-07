@@ -30,8 +30,8 @@ class MessageRepositoryTest extends TestCase
         $testEvent = new TestEvent(1);
 
         $headers = [
-            Header::EVENT_ID => 1,
-            Header::EVENT_TYPE => get_class($testEvent),
+            Header::EVENT_ID          => '1',
+            Header::EVENT_TYPE        => get_class($testEvent),
             Header::AGGREGATE_ROOT_ID => 'aggregate-root-id',
             Header::TIME_OF_RECORDING => PointInTime::fromDateTime(new DateTimeImmutable())->toString(),
         ];
@@ -42,8 +42,8 @@ class MessageRepositoryTest extends TestCase
 
         $storedDomainMessage = DB::table('domain_messages')->first();
 
-        $this->assertEquals($headers[Header::EVENT_ID], $storedDomainMessage->event_id);
-        $this->assertEquals($headers[Header::EVENT_TYPE], get_class($testEvent));
+        $this->assertSame($headers[Header::EVENT_ID], $storedDomainMessage->event_id);
+        $this->assertInstanceOf($headers[Header::EVENT_TYPE], $testEvent);
         $this->assertEquals($headers[Header::AGGREGATE_ROOT_ID], $storedDomainMessage->aggregate_root_id);
         $this->assertEquals($headers[Header::TIME_OF_RECORDING], $storedDomainMessage->recorded_at);
 
@@ -59,8 +59,8 @@ class MessageRepositoryTest extends TestCase
         $testEvent = new TestEvent(1);
 
         $headers = [
-            Header::EVENT_ID => 1,
-            Header::EVENT_TYPE => get_class($testEvent),
+            Header::EVENT_ID          => 1,
+            Header::EVENT_TYPE        => get_class($testEvent),
             Header::AGGREGATE_ROOT_ID => '1',
             Header::TIME_OF_RECORDING => PointInTime::fromDateTime(new DateTimeImmutable())->toString(),
         ];
