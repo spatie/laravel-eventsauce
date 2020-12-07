@@ -30,8 +30,8 @@ class MessageRepositoryTest extends TestCase
         $testEvent = new TestEvent(1);
 
         $headers = [
-            Header::EVENT_ID          => '1',
-            Header::EVENT_TYPE        => get_class($testEvent),
+            Header::EVENT_ID => '1',
+            Header::EVENT_TYPE => get_class($testEvent),
             Header::AGGREGATE_ROOT_ID => 'aggregate-root-id',
             Header::TIME_OF_RECORDING => PointInTime::fromDateTime(new DateTimeImmutable())->toString(),
         ];
@@ -59,8 +59,8 @@ class MessageRepositoryTest extends TestCase
         $testEvent = new TestEvent(1);
 
         $headers = [
-            Header::EVENT_ID          => 1,
-            Header::EVENT_TYPE        => get_class($testEvent),
+            Header::EVENT_ID => 1,
+            Header::EVENT_TYPE => get_class($testEvent),
             Header::AGGREGATE_ROOT_ID => '1',
             Header::TIME_OF_RECORDING => PointInTime::fromDateTime(new DateTimeImmutable())->toString(),
         ];
